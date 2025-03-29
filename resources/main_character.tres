@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PlayerResource" load_steps=4 format=3 uid="uid://cwf53vg7bwmhe"]
+
+[ext_resource type="Script" uid="uid://c7k8si1jqiypj" path="res://resources/player_resource.gd" id="1_vf3ue"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vf3ue"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vsr41"]
+
+[resource]
+script = ExtResource("1_vf3ue")
+health = 20
+shape = SubResource("CircleShape2D_vsr41")
+attack_shape = SubResource("CircleShape2D_vf3ue")
+metadata/_custom_type_script = "uid://c7k8si1jqiypj"

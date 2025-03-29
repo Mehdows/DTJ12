@@ -1,5 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://b7pybyh2gku08"]
+[gd_scene load_steps=9 format=3 uid="uid://b7pybyh2gku08"]
 
+[ext_resource type="Resource" uid="uid://cwf53vg7bwmhe" path="res://resources/main_character.tres" id="1_23chc"]
 [ext_resource type="PackedScene" uid="uid://3jomb47e456g" path="res://scenes_and_scripts/hurt_box.tscn" id="2_e8vqu"]
 [ext_resource type="Texture2D" uid="uid://chsqe3iur5gkr" path="res://assets/character_tileset/Sword.png" id="2_onrkg"]
 [ext_resource type="Script" uid="uid://d1wnnuq882a47" path="res://scenes_and_scripts/clamped_follow_camera.gd" id="3_44uky"]
@@ -8,12 +9,36 @@
 [sub_resource type="GDScript" id="GDScript_onrkg"]
 script/source = "class_name Player extends CharacterBody2D
 
-
-@onready var resource: PlayerResource
 @onready var health_component: Node2D = $HealthComponent
+@onready var collision_shape_2d: CollisionShape2D = $HurtBox/CollisionShape2D
+const HIT_BOX = preload(\"res://scenes_and_scripts/hit_box.tscn\")
 
 @export var speed = 200
+@export var damage = 20
+@export var resource: PlayerResource
 
+func _ready() -> void:
+	collision_shape_2d.shape = resource.shape
+
+func _input(event: InputEvent) -> void:
+	if event.is_action(\"attack\"):
+		var attack = HIT_BOX.instantiate()
+		attack.collision_layer = 1
+		attack.damage = damage
+		attack.get_child(0).shape = resource.attack_shape
+		attack.get_child(0).shape.radius = resource.attack_radius
+		add_child(attack)
+		
+		var timer := Timer.new()
+		timer.wait_time = 0.2  # Adjust damage interval as needed
+		timer.autostart = true
+		timer.one_shot = true
+		timer.connect(\"timeout\", Callable(self, \"_remove_attack\").bind(attack, timer))
+		add_child(timer)
+		
+func _remove_attack(attack,timer):
+	attack.queue_free()
+	timer.queue_free()
 
 func get_input():
 	var input_direction = Input.get_vector(\"move_left\", \"move_right\", \"move_up\", \"move_down\")
@@ -22,25 +47,37 @@ func get_input():
 func _physics_process(_delta):
 	get_input()
 	move_and_slide()
-var damage_sources = {}  # Dictionary to track recent damage sources
-var grace_period: float = 0.5  # Time before the same source can damage again
-
-
-
-
 
 var active_areas: Dictionary = {}
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
-	#health_component.take_damage(area.damage)
-	#if area not in active_areas:
-	#	active_areas[area] = true
-	pass
+	print(\"test\")
+	if area not in active_areas:
+		var timer := Timer.new()
+		timer.wait_time = 1.0  # Adjust damage interval as needed
+		timer.autostart = true
+		timer.one_shot = false
+		timer.connect(\"timeout\", Callable(self, \"_deal_damage\").bind(area))
+		add_child(timer)
+		
+		health_component.take_damage(area.damage)  # Deal initial damage immediately
+		active_areas[area] = timer
 
 func _on_hurt_box_area_exited(area: Area2D) -> void:
-	#if area in active_areas:
-	#	active_areas.erase(area)
-	pass
+	print(\"test\")
+	if area in active_areas:
+		active_areas[area].queue_free()  # Remove and free the timer
+		active_areas.erase(area)
+
+func _deal_damage(area: Area2D) -> void:
+	print(\"test\")
+	if area in active_areas:
+		health_component.take_damage(area.damage)
+
+
+func _on_health_component_death() -> void:
+	print(\"test\")
+	$\".\".queue_free() #TEMP
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i3pqv"]
@@ -58,23 +95,16 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f8gj8"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_f8gj8"]
-radius = 6.08276
-
-[node name="Player" type="CharacterBody2D" groups=["player"]]
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 3
+collision_mask = 3
 script = SubResource("GDScript_onrkg")
+resource = ExtResource("1_23chc")
+
+[node name="HurtBox" parent="." instance=ExtResource("2_e8vqu")]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_hqtel")
-
-[node name="HurtBox" parent="." instance=ExtResource("2_e8vqu")]
-collision_layer = 1
-collision_mask = 1
-
-[node name="CollisionShape2D" parent="HurtBox" index="0"]
-shape = SubResource("CapsuleShape2D_f8gj8")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 z_index = 1
@@ -94,5 +124,6 @@ debug_color = Color(1.39579e-06, 0.645745, 0.253248, 0.42)
 
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
 [connection signal="area_exited" from="HurtBox" to="." method="_on_hurt_box_area_exited"]
+[connection signal="death" from="HealthComponent" to="." method="_on_health_component_death"]
 
 [editable path="HurtBox"]
