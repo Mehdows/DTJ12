@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://b7pybyh2gku08"]
+[gd_scene load_steps=8 format=3 uid="uid://b7pybyh2gku08"]
 
 [ext_resource type="PackedScene" uid="uid://3jomb47e456g" path="res://scenes_and_scripts/hurt_box.tscn" id="2_e8vqu"]
 [ext_resource type="Texture2D" uid="uid://chsqe3iur5gkr" path="res://assets/character_tileset/Sword.png" id="2_onrkg"]
+[ext_resource type="Script" uid="uid://d1wnnuq882a47" path="res://scenes_and_scripts/clamped_follow_camera.gd" id="3_44uky"]
 
 [sub_resource type="GDScript" id="GDScript_onrkg"]
 script/source = "extends CharacterBody2D
+class_name Player
 
 @onready var resource: Resource
 
@@ -46,3 +48,8 @@ shape = SubResource("CircleShape2D_i3pqv")
 sprite_frames = SubResource("SpriteFrames_hqtel")
 
 [node name="HurtBox" parent="." instance=ExtResource("2_e8vqu")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+z_index = 1
+zoom = Vector2(3.5, 3.5)
+script = ExtResource("3_44uky")
