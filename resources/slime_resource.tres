@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="EnemyResource" load_steps=6 format=3 uid="uid://ck31noiukas2e"]
 
-[ext_resource type="Script" uid="uid://dbu08eym18n84" path="res://resources/enemy_resource.gd" id="1_fabrb"]
+[ext_resource type="Script" path="res://resources/enemy_resource.gd" id="1_fabrb"]
 [ext_resource type="Texture2D" uid="uid://dgydpclv6hrao" path="res://assets/character_tileset/LargeSlime_Grey.png" id="2_ia153"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fabrb"]
