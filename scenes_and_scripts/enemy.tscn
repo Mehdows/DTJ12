@@ -6,28 +6,14 @@
 [ext_resource type="PackedScene" uid="uid://dn5ik34crhhyi" path="res://scenes_and_scripts/health_component.tscn" id="4_n8rnd"]
 
 [sub_resource type="GDScript" id="GDScript_n8rnd"]
-script/source = "extends CharacterBody2D
-@export var resource: Resource
+script/source = "class_name Enemy extends CharacterBody2D
 
+@export var resource: EnemyResource
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
-@onready var hurtbox_col: CollisionShape2D = $HurtBox/CollisionShape2D
-@onready var hitbox_col: CollisionShape2D = $HitBox/CollisionShape2D
-@onready var health_component: HealthComponent = $HealthComponent
-
 
 
 func _ready() -> void:
 	animated_sprite_2d.sprite_frames = resource.sprite
-	hurtbox_col.shape = resource.shape
-	hitbox_col.shape = resource.shape
-
-
-func _on_hurt_box_area_entered(area: Area2D) -> void:
-	health_component.take_damage(area.damage)
-
-
-func _on_health_component_death() -> void:
-	$\".\".queue_free()
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n8rnd"]
