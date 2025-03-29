@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6r52wp43hjyh"]
+
+[ext_resource type="PackedScene" uid="uid://3jomb47e456g" path="res://scenes_and_scripts/hurt_box.tscn" id="1_r7706"]
+[ext_resource type="PackedScene" uid="uid://celm56g665rwr" path="res://scenes_and_scripts/hit_box.tscn" id="2_e5mcl"]
+
+[sub_resource type="GDScript" id="GDScript_n8rnd"]
+script/source = "extends CharacterBody2D
+@export var resource: Resource
+
+@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
+@onready var hurt_box: HurtBox = $HurtBox
+@onready var hit_box: HitBox = $HitBox
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+
+
+
+func _ready() -> void:
+	var shape = resource.shape
+	collision_shape_2d.shape = shape
+	hurt_box.shape = shape
+	hit_box.shape = shape
+	animated_sprite_2d = resource.sprite
+"
+
+[node name="Enemy" type="CharacterBody2D"]
+script = SubResource("GDScript_n8rnd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+
+[node name="HurtBox" parent="." instance=ExtResource("1_r7706")]
+
+[node name="HitBox" parent="." instance=ExtResource("2_e5mcl")]

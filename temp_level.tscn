@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://c3juskxqpip2r"]
+
+[ext_resource type="PackedScene" uid="uid://b7pybyh2gku08" path="res://scenes_and_scripts/player.tscn" id="1_l0noo"]
+[ext_resource type="PackedScene" uid="uid://c6r52wp43hjyh" path="res://scenes_and_scripts/enemy.tscn" id="2_qqrch"]
+[ext_resource type="Resource" uid="uid://kmeoljw7yq4t" path="res://scenes_and_scripts/slime.tres" id="3_0f55k"]
+
+[node name="Node2D" type="Node2D"]
+metadata/_edit_lock_ = true
+
+[node name="Player" parent="." instance=ExtResource("1_l0noo")]
+position = Vector2(301, 171)
+
+[node name="Enemy" parent="." instance=ExtResource("2_qqrch")]
+resource = ExtResource("3_0f55k")
