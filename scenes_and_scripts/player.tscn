@@ -9,24 +9,47 @@
 [sub_resource type="GDScript" id="GDScript_onrkg"]
 script/source = "class_name PlayerCharacter extends CharacterBody2D
 
+const HIT_BOX = preload(\"res://scenes_and_scripts/hit_box.tscn\")
+const LASER = preload(\"res://scenes_and_scripts/laser.tscn\")
+
 @onready var health_component: Node2D = $HealthComponent
 @onready var collision_shape_2d: CollisionShape2D = $HurtBox/CollisionShape2D
-const HIT_BOX = preload(\"res://scenes_and_scripts/hit_box.tscn\")
 
 @export var speed = 200
 @export var damage = 20
+@export var attack_distance = 30
+@export var dash_speed = 500
+@export var dash_damage = 50
+@export var dash_attack_size = 30
+@export var dash_duration = 0.2
+@export var dash_cooldown = 1.0
+@export var ability_1_cooldown = 5.0
 @export var resource: PlayerResource
+
+var is_dashing = false
+var dash_timer = 0.0
+var dash_cooldown_timer = 0.0
+var dash_direction = Vector2.ZERO
+var can_use_ability_1 = true
+var dash_attack: Area2D = null
 
 func _ready() -> void:
 	collision_shape_2d.shape = resource.shape
 
 func _input(event: InputEvent) -> void:
-	if event.is_action(\"attack\"):
+	if event.is_action_pressed(\"attack\"):
 		var attack = HIT_BOX.instantiate()
 		attack.collision_layer = 1
 		attack.damage = damage
 		attack.get_child(0).shape = resource.attack_shape
 		attack.get_child(0).shape.radius = resource.attack_radius
+		
+		var mouse_position = get_global_mouse_position()
+		var local_mouse_pos = mouse_position - global_position  # Convert to local space
+		var attack_position = local_mouse_pos.normalized() * min(local_mouse_pos.length(), attack_distance)
+		
+		attack.position = attack_position
+		attack.rotation = attack_position.angle()
 		add_child(attack)
 		
 		var timer := Timer.new()
@@ -35,17 +58,80 @@ func _input(event: InputEvent) -> void:
 		timer.one_shot = true
 		timer.connect(\"timeout\", Callable(self, \"_remove_attack\").bind(attack, timer))
 		add_child(timer)
+	elif event.is_action_pressed(\"ability_1\"):
+		ability_1()
+		
+func ability_1() -> void:
+	if not can_use_ability_1:
+		return
+		
+	var laser = LASER.instantiate()
+	laser.global_position = global_position  # Start at player
+	laser.direction = (get_global_mouse_position() - global_position).normalized()
+	add_sibling(laser)  # Add to the same level as the player (not as a child, so it moves freely)
+	
+	# Start cooldown
+	can_use_ability_1 = false
+	var cooldown_timer = Timer.new()
+	cooldown_timer.wait_time = ability_1_cooldown
+	cooldown_timer.one_shot = true
+	cooldown_timer.connect(\"timeout\", Callable(self, \"_reset_ability_1_cooldown\"))
+	add_child(cooldown_timer)
+	cooldown_timer.start()
+	
+func _reset_ability_1_cooldown():
+	can_use_ability_1 = true
 		
 func _remove_attack(attack,timer):
 	attack.queue_free()
 	timer.queue_free()
 
 func get_input():
-	var input_direction = Input.get_vector(\"move_left\", \"move_right\", \"move_up\", \"move_down\")
-	velocity = input_direction * speed
+	if not is_dashing:
+		var input_direction = Input.get_vector(\"move_left\", \"move_right\", \"move_up\", \"move_down\")
+		velocity = input_direction * speed
+		
+		if Input.is_action_just_pressed(\"dash\") and dash_cooldown_timer <= 0:
+			start_dash(input_direction)
+
+func start_dash(direction):
+	if direction == Vector2.ZERO:
+		return
+	
+	is_dashing = true
+	dash_timer = dash_duration
+	dash_cooldown_timer = dash_cooldown
+	dash_direction = direction
+	velocity = dash_direction * dash_speed
+	
+	# Disable the hurtbox (player is invincible)
+	$HurtBox.set_deferred(\"monitorable\", false)
+
+	# Create a hitbox for dash damage
+	dash_attack = HIT_BOX.instantiate()
+	dash_attack.collision_layer = 1
+	dash_attack.damage = dash_damage
+	dash_attack.get_child(0).shape = resource.attack_shape
+	var shape = dash_attack.get_child(0).shape
+	shape.radius = dash_attack_size
+	dash_attack.position = Vector2.ZERO  # Centered on player
+	add_child(dash_attack)
 
 func _physics_process(_delta):
-	get_input()
+	if is_dashing:
+		dash_timer -= _delta
+		if dash_timer <= 0:
+			is_dashing = false
+			velocity = Vector2.ZERO
+			$HurtBox.set_deferred(\"monitorable\", true)
+			
+			if dash_attack:
+				dash_attack.queue_free()
+				dash_attack = null
+	else:
+		dash_cooldown_timer = max(0, dash_cooldown_timer - _delta)
+		get_input()
+
 	move_and_slide()
 
 var active_areas: Dictionary = {}
