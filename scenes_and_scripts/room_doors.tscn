@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://clo0qt1px7w01"]
 
-[ext_resource type="Script" uid="uid://bh7024nxxfjid" path="res://rooms/door_manager.gd" id="1_xhpj4"]
+[ext_resource type="Script" path="res://rooms/door_manager.gd" id="1_xhpj4"]
 [ext_resource type="PackedScene" uid="uid://bmvji6yafni8e" path="res://scenes_and_scripts/room_door.tscn" id="2_aynv2"]
 
 [node name="DoorsManager" type="Node2D"]
@@ -8,20 +8,8 @@ script = ExtResource("1_xhpj4")
 
 [node name="EntranceDoor" parent="." instance=ExtResource("2_aynv2")]
 
-[node name="CollisionShape2D" parent="EntranceDoor/AreaNorth" index="0"]
-debug_color = Color(0.988207, 0, 0.304575, 0.42)
-
-[node name="CollisionShape2D" parent="EntranceDoor/AreaSouth" index="0"]
-debug_color = Color(0.622856, 0.351977, 1, 0.42)
-
 [node name="ExitDoor" parent="." instance=ExtResource("2_aynv2")]
 position = Vector2(57, 0)
-
-[node name="CollisionShape2D" parent="ExitDoor/AreaNorth" index="0"]
-debug_color = Color(0.988207, 0, 0.304575, 0.42)
-
-[node name="CollisionShape2D" parent="ExitDoor/AreaSouth" index="0"]
-debug_color = Color(0.622856, 0.351977, 1, 0.42)
 
 [editable path="EntranceDoor"]
 [editable path="ExitDoor"]

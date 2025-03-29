@@ -247,9 +247,6 @@ zoom = Vector2(4, 4)
 camera_target = NodePath("..")
 camera_radius = 100.0
 
-[node name="CollisionShape2D" parent="Player/PlayerFeetArea" index="0"]
-debug_color = Color(1.39579e-06, 0.645745, 0.253248, 0.42)
-
 [node name="Tilemap" type="Node" parent="."]
 
 [node name="CamerCenter" type="Marker2D" parent="Tilemap"]

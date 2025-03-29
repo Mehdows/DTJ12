@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://c6r52wp43hjyh"]
+[gd_scene load_steps=9 format=3 uid="uid://c6r52wp43hjyh"]
 
 [ext_resource type="Texture2D" uid="uid://dgydpclv6hrao" path="res://assets/character_tileset/LargeSlime_Grey.png" id="1_e5mcl"]
 [ext_resource type="PackedScene" uid="uid://3jomb47e456g" path="res://scenes_and_scripts/hurt_box.tscn" id="1_r7706"]
 [ext_resource type="PackedScene" uid="uid://celm56g665rwr" path="res://scenes_and_scripts/hit_box.tscn" id="2_e5mcl"]
 [ext_resource type="PackedScene" uid="uid://dn5ik34crhhyi" path="res://scenes_and_scripts/health_component.tscn" id="4_n8rnd"]
+[ext_resource type="PackedScene" uid="uid://bcrmfwvoi3c5l" path="res://scenes_and_scripts/monster_ai.tscn" id="5_q3pe1"]
 
 [sub_resource type="GDScript" id="GDScript_n8rnd"]
 script/source = "extends CharacterBody2D
@@ -13,13 +14,17 @@ script/source = "extends CharacterBody2D
 @onready var hurtbox_col: CollisionShape2D = $HurtBox/CollisionShape2D
 @onready var hitbox_col: CollisionShape2D = $HitBox/CollisionShape2D
 @onready var health_component: HealthComponent = $HealthComponent
-
-
+@onready var monster_ai: MonsterAI = $MonsterAI
+@onready var hit_box: HitBox = $HitBox
 
 func _ready() -> void:
 	animated_sprite_2d.sprite_frames = resource.sprite
+	hit_box.damage = resource.attack
 	hurtbox_col.shape = resource.shape
 	hitbox_col.shape = resource.shape
+	monster_ai.speed = resource.speed
+	health_component.max_health = resource.health
+	
 
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
@@ -64,6 +69,8 @@ collision_mask = 1
 [node name="HitBox" parent="." instance=ExtResource("2_e5mcl")]
 collision_layer = 2
 damage = 1
+
+[node name="MonsterAI" parent="." instance=ExtResource("5_q3pe1")]
 
 [connection signal="death" from="HealthComponent" to="." method="_on_health_component_death"]
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://b7pybyh2gku08"]
 
-[ext_resource type="Resource" path="res://resources/main_character.tres" id="1_23chc"]
+[ext_resource type="Resource" uid="uid://cwf53vg7bwmhe" path="res://resources/main_character.tres" id="1_23chc"]
 [ext_resource type="PackedScene" uid="uid://3jomb47e456g" path="res://scenes_and_scripts/hurt_box.tscn" id="2_e8vqu"]
 [ext_resource type="Texture2D" uid="uid://chsqe3iur5gkr" path="res://assets/character_tileset/Sword.png" id="2_onrkg"]
 [ext_resource type="Script" uid="uid://d1wnnuq882a47" path="res://scenes_and_scripts/clamped_follow_camera.gd" id="3_44uky"]
@@ -51,7 +51,6 @@ func _physics_process(_delta):
 var active_areas: Dictionary = {}
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
-	print(\"test\")
 	if area not in active_areas:
 		var timer := Timer.new()
 		timer.wait_time = 1.0  # Adjust damage interval as needed
@@ -64,19 +63,16 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 		active_areas[area] = timer
 
 func _on_hurt_box_area_exited(area: Area2D) -> void:
-	print(\"test\")
 	if area in active_areas:
 		active_areas[area].queue_free()  # Remove and free the timer
 		active_areas.erase(area)
 
 func _deal_damage(area: Area2D) -> void:
-	print(\"test\")
 	if area in active_areas:
 		health_component.take_damage(area.damage)
 
 
 func _on_health_component_death() -> void:
-	print(\"test\")
 	$\".\".queue_free() #TEMP
 "
 
@@ -108,8 +104,6 @@ resource = ExtResource("1_23chc")
 sprite_frames = SubResource("SpriteFrames_hqtel")
 
 [node name="HurtBox" parent="." instance=ExtResource("2_e8vqu")]
-collision_layer = 1
-collision_mask = 1
 
 [node name="CollisionShape2D" parent="HurtBox" index="0"]
 shape = SubResource("CapsuleShape2D_f8gj8")
@@ -132,5 +126,6 @@ debug_color = Color(1.39579e-06, 0.645745, 0.253248, 0.42)
 
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
 [connection signal="area_exited" from="HurtBox" to="." method="_on_hurt_box_area_exited"]
+[connection signal="death" from="HealthComponent" to="." method="_on_health_component_death"]
 
 [editable path="HurtBox"]
