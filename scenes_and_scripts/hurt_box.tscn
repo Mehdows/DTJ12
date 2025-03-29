@@ -1,8 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://3jomb47e456g"]
+[gd_scene load_steps=3 format=3 uid="uid://3jomb47e456g"]
 
 [ext_resource type="Script" uid="uid://r00ruk80vha5" path="res://scenes_and_scripts/hurt_box.gd" id="1_6d2hw"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_0q7ff"]
+
 [node name="HurtBox" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("1_6d2hw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_0q7ff")

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=6 format=3 uid="uid://kmeoljw7yq4t"]
+[gd_resource type="Resource" load_steps=5 format=3 uid="uid://kmeoljw7yq4t"]
 
 [ext_resource type="Texture2D" uid="uid://dgydpclv6hrao" path="res://assets/character_tileset/LargeSlime_Grey.png" id="1_ewkh8"]
 
@@ -8,16 +8,12 @@ script/source = "extends Resource
 @export var health: int
 @export var attack: int
 @export var sprite: SpriteFrames
-@export var shape: Shape2D
 
-func _init(p_health = 0, p_attack = 0, p_sprite = null, p_shape = null) -> void:
+func _init(p_health = 0, p_attack = 0, p_sprite = null) -> void:
 	health = p_health
 	attack = p_attack
 	sprite = p_sprite
-	p_shape = shape
 "
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_2ha26"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qsdiq"]
 atlas = ExtResource("1_ewkh8")
@@ -39,4 +35,3 @@ script = SubResource("GDScript_ch8o0")
 health = 100
 attack = 100
 sprite = SubResource("SpriteFrames_3yir7")
-shape = SubResource("CircleShape2D_2ha26")
