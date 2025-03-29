@@ -14,7 +14,7 @@ func _init(p_health = 0, p_attack = 0, p_sprite = null, p_shape = null) -> void:
 	health = p_health
 	attack = p_attack
 	sprite = p_sprite
-	p_shape = shape
+	shape = p_shape
 "
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2ha26"]

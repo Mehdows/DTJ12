@@ -1,14 +1,18 @@
-[gd_scene load_steps=7 format=3 uid="uid://b7pybyh2gku08"]
+[gd_scene load_steps=8 format=3 uid="uid://b7pybyh2gku08"]
 
 [ext_resource type="PackedScene" uid="uid://3jomb47e456g" path="res://scenes_and_scripts/hurt_box.tscn" id="2_e8vqu"]
 [ext_resource type="Texture2D" uid="uid://chsqe3iur5gkr" path="res://assets/character_tileset/Sword.png" id="2_onrkg"]
+[ext_resource type="PackedScene" uid="uid://dn5ik34crhhyi" path="res://scenes_and_scripts/health_component.tscn" id="3_44uky"]
 
 [sub_resource type="GDScript" id="GDScript_onrkg"]
 script/source = "extends CharacterBody2D
 
 @onready var resource: Resource
+@onready var health_component: Node2D = $HealthComponent
 
 @export var speed = 200
+
+
 
 func get_input():
 	var input_direction = Input.get_vector(\"move_left\", \"move_right\", \"move_up\", \"move_down\")
@@ -17,6 +21,30 @@ func get_input():
 func _physics_process(_delta):
 	get_input()
 	move_and_slide()
+var damage_sources = {}  # Dictionary to track recent damage sources
+var grace_period: float = 0.5  # Time before the same source can damage again
+
+func _on_hurt_box_area_entered(area: Area2D) -> void:
+	print(area)
+	print(\"hello\")
+	var source_id = area.get_instance_id()  # Unique ID for the damage source
+	
+	if source_id in damage_sources:
+		return  # Ignore if within grace period
+	
+	health_component.take_damage(area.damage)
+	damage_sources[source_id] = true
+	
+	# Set up a one-shot timer to remove the source from the dictionary
+	var timer = Timer.new()
+	timer.wait_time = grace_period
+	timer.one_shot = true
+	timer.connect(\"timeout\", Callable(self, \"_remove_damage_source\").bind(source_id))
+	add_child(timer)
+	timer.start()
+	
+func _remove_damage_source(source_id):
+	damage_sources.erase(source_id)
 "
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_i3pqv"]
@@ -37,6 +65,8 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 0
 script = SubResource("GDScript_onrkg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -46,3 +76,7 @@ shape = SubResource("CircleShape2D_i3pqv")
 sprite_frames = SubResource("SpriteFrames_hqtel")
 
 [node name="HurtBox" parent="." instance=ExtResource("2_e8vqu")]
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_44uky")]
+
+[connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]

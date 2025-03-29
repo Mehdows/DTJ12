@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://c6r52wp43hjyh"]
+[gd_scene load_steps=9 format=3 uid="uid://c6r52wp43hjyh"]
 
+[ext_resource type="Texture2D" uid="uid://dgydpclv6hrao" path="res://assets/character_tileset/LargeSlime_Grey.png" id="1_e5mcl"]
 [ext_resource type="PackedScene" uid="uid://3jomb47e456g" path="res://scenes_and_scripts/hurt_box.tscn" id="1_r7706"]
 [ext_resource type="PackedScene" uid="uid://celm56g665rwr" path="res://scenes_and_scripts/hit_box.tscn" id="2_e5mcl"]
+[ext_resource type="PackedScene" uid="uid://dn5ik34crhhyi" path="res://scenes_and_scripts/health_component.tscn" id="4_n8rnd"]
 
 [sub_resource type="GDScript" id="GDScript_n8rnd"]
 script/source = "extends CharacterBody2D
@@ -19,16 +21,42 @@ func _ready() -> void:
 	collision_shape_2d.shape = shape
 	hurt_box.shape = shape
 	hit_box.shape = shape
-	animated_sprite_2d = resource.sprite
+	animated_sprite_2d.sprite_frames = resource.sprite
 "
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e5mcl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n8rnd"]
+atlas = ExtResource("1_e5mcl")
+region = Rect2(0, 0, 308, 300)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q3pe1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n8rnd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Enemy" type="CharacterBody2D"]
 script = SubResource("GDScript_n8rnd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+light_mask = 0
+visibility_layer = 0
+z_index = 4
+shape = SubResource("CircleShape2D_e5mcl")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-
-[node name="HurtBox" parent="." instance=ExtResource("1_r7706")]
+sprite_frames = SubResource("SpriteFrames_q3pe1")
 
 [node name="HitBox" parent="." instance=ExtResource("2_e5mcl")]
+damage = 1
+
+[node name="HealthComponent" parent="." instance=ExtResource("4_n8rnd")]
+
+[node name="HurtBox" parent="." instance=ExtResource("1_r7706")]
+collision_mask = 1
