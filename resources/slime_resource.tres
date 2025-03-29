@@ -25,6 +25,7 @@ animations = [{
 script = ExtResource("1_fabrb")
 health = 20
 attack = 20
+speed = 50
 shape = SubResource("CircleShape2D_fabrb")
 sprite = SubResource("SpriteFrames_dxi0d")
 metadata/_custom_type_script = "uid://dbu08eym18n84"

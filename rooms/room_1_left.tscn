@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=4 uid="uid://blskmwg5xkmu7"]
+[gd_scene load_steps=13 format=4 uid="uid://blskmwg5xkmu7"]
 
 [ext_resource type="Texture2D" uid="uid://d1j1m5hhit48j" path="res://assets/Dungeon tileset/Dungeon tileset.png" id="1_dannw"]
-[ext_resource type="Script" path="res://rooms/room_manager.gd" id="1_yaquc"]
-[ext_resource type="PackedScene" uid="uid://c6r52wp43hjyh" path="res://scenes_and_scripts/enemy.tscn" id="4_fltfd"]
+[ext_resource type="Script" uid="uid://c7yud7eam5arv" path="res://rooms/room_manager.gd" id="1_yaquc"]
+[ext_resource type="Script" uid="uid://dkcsxaw46aslm" path="res://rooms/enemy_spawner.gd" id="3_r3y5g"]
+[ext_resource type="Script" uid="uid://r088mevna2p" path="res://resources/waves/wave_resource.gd" id="4_av7ta"]
 [ext_resource type="PackedScene" uid="uid://clo0qt1px7w01" path="res://scenes_and_scripts/room_doors.tscn" id="4_r3y5g"]
-[ext_resource type="Resource" uid="uid://ck31noiukas2e" path="res://resources/slime_resource.tres" id="5_av7ta"]
+[ext_resource type="Resource" uid="uid://d3ptilhfmmg7e" path="res://resources/waves/easy_wave.tres" id="5_5soxi"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_wijl4"]
 tile_data = PackedInt32Array(0, 0, 5, 65536, 0, 6, 1, 65536, 5, 65537, 65536, 6, 2, 131072, 5, 65538, 131072, 6)
@@ -296,10 +297,6 @@ autoplay = "open_door"
 
 [node name="ExitDoor" parent="DoorsManager" index="1"]
 position = Vector2(598, 161)
-
-[node name="Enemy" parent="." instance=ExtResource("4_fltfd")]
-position = Vector2(617, 268)
-resource = ExtResource("5_av7ta")
 
 [editable path="DoorsManager"]
 [editable path="DoorsManager/EntranceDoor"]

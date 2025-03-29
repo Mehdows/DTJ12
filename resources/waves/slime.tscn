@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3n8s3ds3rto4"]
+
+[ext_resource type="PackedScene" uid="uid://c6r52wp43hjyh" path="res://scenes_and_scripts/enemy.tscn" id="1_h2rev"]
+[ext_resource type="Resource" uid="uid://ck31noiukas2e" path="res://resources/slime_resource.tres" id="2_uufv5"]
+
+[node name="Enemy" instance=ExtResource("1_h2rev")]
+resource = ExtResource("2_uufv5")
+
+[editable path="HurtBox"]
+[editable path="HitBox"]

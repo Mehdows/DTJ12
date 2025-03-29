@@ -242,6 +242,10 @@ pattern_3 = SubResource("TileMapPattern_p5pve")
 z_index = 10
 position = Vector2(573, 343)
 
+[node name="HurtBox" parent="Player" index="1"]
+collision_layer = 1
+collision_mask = 1
+
 [node name="Camera2D" parent="Player" index="2"]
 zoom = Vector2(4, 4)
 camera_target = NodePath("..")

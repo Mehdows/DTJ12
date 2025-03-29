@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=4 uid="uid://bmvji6yafni8e"]
 
-[ext_resource type="Script" path="res://scenes_and_scripts/door.gd" id="1_fj4ml"]
+[ext_resource type="Script" uid="uid://dl8effjwp512w" path="res://scenes_and_scripts/door.gd" id="1_fj4ml"]
 [ext_resource type="TileSet" uid="uid://blxt0n5mf7khe" path="res://resources/dungeon_tileset.tres" id="2_lbxlk"]
 [ext_resource type="AudioStream" uid="uid://dbkobhwqgu06q" path="res://assets/sound/door-slam-172171.mp3" id="3_lbxlk"]
 

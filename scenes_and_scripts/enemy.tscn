@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://3jomb47e456g" path="res://scenes_and_scripts/hurt_box.tscn" id="1_r7706"]
 [ext_resource type="PackedScene" uid="uid://celm56g665rwr" path="res://scenes_and_scripts/hit_box.tscn" id="2_e5mcl"]
 [ext_resource type="PackedScene" uid="uid://dn5ik34crhhyi" path="res://scenes_and_scripts/health_component.tscn" id="4_n8rnd"]
-[ext_resource type="PackedScene" uid="uid://bcrmfwvoi3c5l" path="res://scenes_and_scripts/monster_ai.tscn" id="5_q3pe1"]
+[ext_resource type="PackedScene" path="res://scenes_and_scripts/monster_ai.tscn" id="5_q3pe1"]
 
 [sub_resource type="GDScript" id="GDScript_n8rnd"]
 script/source = "class_name Enemy extends CharacterBody2D

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://clo0qt1px7w01"]
 
-[ext_resource type="Script" path="res://rooms/door_manager.gd" id="1_xhpj4"]
+[ext_resource type="Script" uid="uid://bh7024nxxfjid" path="res://rooms/door_manager.gd" id="1_xhpj4"]
 [ext_resource type="PackedScene" uid="uid://bmvji6yafni8e" path="res://scenes_and_scripts/room_door.tscn" id="2_aynv2"]
 
 [node name="DoorsManager" type="Node2D"]
