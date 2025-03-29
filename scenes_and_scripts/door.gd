@@ -23,6 +23,8 @@ func _ready() -> void:
 		"Exit":
 			animation_player.play("close_door")
 			is_open = false
+			
+
 	
 	# Connect the signals for area detection
 	area_south.connect("area_entered",  _on_area_south_entered)

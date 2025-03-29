@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="WaveResource" load_steps=2 format=3 uid="uid://d3ptilhfmmg7e"]
+
+[ext_resource type="Script" uid="uid://r088mevna2p" path="res://resources/waves/wave_resource.gd" id="1_ja5qk"]
+
+[resource]
+script = ExtResource("1_ja5qk")
+enemy_types = Array[PackedScene]([null])
+enemy_count = 6
+spawn_points = Array[int]([0, 1, 2, 3])
+spawn_pattern = "random"
+delay_between_spawns = 1.0
+wave_start_delay = 3.0
+enemy_speed_multiplier = 1.0
+enemy_health_multiplier = 1.0
+metadata/_custom_type_script = "uid://r088mevna2p"

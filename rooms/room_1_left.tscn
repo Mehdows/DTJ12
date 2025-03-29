@@ -271,15 +271,20 @@ tile_set = SubResource("TileSet_1j48i")
 [node name="Traps" type="Node2D" parent="."]
 
 [node name="EnemySpawner" type="Node2D" parent="."]
+script = ExtResource("3_r3y5g")
+waves = Array[ExtResource("4_av7ta")]([ExtResource("5_5soxi")])
 
-[node name="SpawnPoint1" type="Marker2D" parent="EnemySpawner"]
+[node name="SpawnPointN" type="Marker2D" parent="EnemySpawner"]
 position = Vector2(589, 202)
 
-[node name="SpawnPoint2" type="Marker2D" parent="EnemySpawner"]
+[node name="SpawnPointE" type="Marker2D" parent="EnemySpawner"]
 position = Vector2(723, 349)
 
-[node name="SpawnPoint3" type="Marker2D" parent="EnemySpawner"]
+[node name="SpawnPointW" type="Marker2D" parent="EnemySpawner"]
 position = Vector2(467, 343)
+
+[node name="SpawnPointS" type="Marker2D" parent="EnemySpawner"]
+position = Vector2(934, 686)
 
 [node name="DoorsManager" parent="." instance=ExtResource("4_r3y5g")]
 

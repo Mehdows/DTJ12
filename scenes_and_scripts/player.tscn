@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dn5ik34crhhyi" path="res://scenes_and_scripts/health_component.tscn" id="4_f8gj8"]
 
 [sub_resource type="GDScript" id="GDScript_onrkg"]
-script/source = "class_name Player extends CharacterBody2D
+script/source = "class_name PlayerCharacter extends CharacterBody2D
 
 @onready var health_component: Node2D = $HealthComponent
 @onready var collision_shape_2d: CollisionShape2D = $HurtBox/CollisionShape2D
