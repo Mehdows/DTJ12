@@ -1,0 +1,16 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://bjeq3xdp6dads"]
+
+[sub_resource type="GDScript" id="GDScript_8tqic"]
+script/source = "extends Resource
+
+@export var health: int
+@export var shape: Shape2D
+
+func _init(p_health = 0, p_shape = null) -> void:
+	health = p_health
+	shape = p_shape
+"
+
+[resource]
+script = SubResource("GDScript_8tqic")
+health = 0
