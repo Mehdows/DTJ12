@@ -10,7 +10,6 @@ func _physics_process(_delta: float) -> void:
 	var direction_vec = (get_player_position() - monster_position).normalized()
 	parent.velocity = direction_vec * speed
 	parent.move_and_slide()
-	print(monster_position)
 	
 
 func get_player_position() -> Vector2:
