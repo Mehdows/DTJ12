@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b7pybyh2gku08"]
+[gd_scene load_steps=10 format=3 uid="uid://b7pybyh2gku08"]
 
 [ext_resource type="PackedScene" uid="uid://3jomb47e456g" path="res://scenes_and_scripts/hurt_box.tscn" id="2_e8vqu"]
 [ext_resource type="Texture2D" uid="uid://chsqe3iur5gkr" path="res://assets/character_tileset/Sword.png" id="2_onrkg"]
@@ -6,10 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://dn5ik34crhhyi" path="res://scenes_and_scripts/health_component.tscn" id="4_f8gj8"]
 
 [sub_resource type="GDScript" id="GDScript_onrkg"]
-script/source = "extends CharacterBody2D
-class_name Player
+script/source = "class_name Player extends CharacterBody2D
 
-@onready var resource: Resource
+
+@onready var resource: PlayerResource
 @onready var health_component: Node2D = $HealthComponent
 
 @export var speed = 200
@@ -32,13 +32,15 @@ var grace_period: float = 0.5  # Time before the same source can damage again
 var active_areas: Dictionary = {}
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
-	health_component.take_damage(area.damage)
-	if area not in active_areas:
-		active_areas[area] = true
+	#health_component.take_damage(area.damage)
+	#if area not in active_areas:
+	#	active_areas[area] = true
+	pass
 
 func _on_hurt_box_area_exited(area: Area2D) -> void:
-	if area in active_areas:
-		active_areas.erase(area)
+	#if area in active_areas:
+	#	active_areas.erase(area)
+	pass
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i3pqv"]
@@ -56,22 +58,41 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Player" type="CharacterBody2D"]
-collision_layer = 0
-collision_mask = 0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f8gj8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f8gj8"]
+radius = 6.08276
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 script = SubResource("GDScript_onrkg")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_hqtel")
 
 [node name="HurtBox" parent="." instance=ExtResource("2_e8vqu")]
+collision_layer = 1
+collision_mask = 1
+
+[node name="CollisionShape2D" parent="HurtBox" index="0"]
+shape = SubResource("CapsuleShape2D_f8gj8")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 z_index = 1
-zoom = Vector2(3.5, 3.5)
+zoom = Vector2(3, 3)
 script = ExtResource("3_44uky")
 
 [node name="HealthComponent" parent="." instance=ExtResource("4_f8gj8")]
 
+[node name="PlayerFeetArea" type="Area2D" parent="." groups=["player"]]
+collision_layer = 32
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerFeetArea"]
+position = Vector2(-2, 13)
+shape = SubResource("CircleShape2D_f8gj8")
+debug_color = Color(1.39579e-06, 0.645745, 0.253248, 0.42)
+
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
 [connection signal="area_exited" from="HurtBox" to="." method="_on_hurt_box_area_exited"]
+
+[editable path="HurtBox"]

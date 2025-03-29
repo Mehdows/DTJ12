@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://clo0qt1px7w01"]
+
+[ext_resource type="Script" uid="uid://bh7024nxxfjid" path="res://rooms/door_manager.gd" id="1_xhpj4"]
+[ext_resource type="PackedScene" uid="uid://bmvji6yafni8e" path="res://scenes_and_scripts/room_door.tscn" id="2_aynv2"]
+
+[node name="DoorsManager" type="Node2D"]
+script = ExtResource("1_xhpj4")
+
+[node name="EntranceDoor" parent="." instance=ExtResource("2_aynv2")]
+
+[node name="ExitDoor" parent="." instance=ExtResource("2_aynv2")]
+position = Vector2(57, 0)
+
+[editable path="EntranceDoor"]
+[editable path="ExitDoor"]

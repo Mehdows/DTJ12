@@ -5,7 +5,7 @@ class_name GameController extends Node
 @onready var player_scene = preload("res://scenes_and_scripts/player.tscn")
 @onready var world: Node2D = $World
 
-var player  
+var player
 var current_room_index = 0
 var current_room_instance
 
@@ -35,20 +35,24 @@ func load_first_room():
 
 		# Move to the next room index for future loading
 		current_room_index = 1
+
+		# Connect to the room_started signal of the room manager
+		var room_manager = current_room_instance
+		room_manager.connect("room_started",  _on_room_started)
+		room_manager.connect("room_cleared", _on_room_cleared)
 	else:
 		print("Error: No rooms in the array!")
 
-func change_2d_scene(new_scene: String, delete: bool = true, keep_running: bool = false) -> void:
-	if delete and current_world:
-		current_world.queue_free()
-	elif keep_running:
-		current_world.visible = false
-	
-	# Instantiate and add the new scene to the world
-	var new_scene_instance = load(new_scene).instantiate()
-	world.add_child(new_scene_instance)
-	current_world = new_scene_instance
+# This function will be called when the room is started
+func _on_room_started():
+	print("Room has started!")
+	# You can trigger additional behavior like unlocking certain doors, enemies, etc.
 
+func _on_room_cleared():
+	print("Room has been cleared, loading next room!")
+	load_next_room()
+
+# Function to load the next room
 func load_next_room():
 	if current_room_index < room_scenes.size():
 		# Debug print to see which room we're trying to load
@@ -63,20 +67,27 @@ func load_next_room():
 
 		# Increment the room index
 		current_room_index += 1
+
+		var room_manager = current_room_instance.get_node("RoomManager")
+		room_manager.connect("room_started", self, "_on_room_started")
+		room_manager.connect("room_cleared", self, "_on_room_cleared")
 	else:
 		print("All rooms completed!")
 
+# Function to spawn the player in the room
 func spawn_player():
 	# Debug print to confirm the player spawn logic
 	print("Spawning player...")
 
-	# Check if the room has an entrance door
-	var entrance = current_room_instance.get_node("Doors/EntranceDoor")
-	if entrance:
+	# Find the PlayerSpawnPoint in the room
+	var spawn_point = current_room_instance.get_node("PlayerSpawnPoint")
+	if spawn_point:
 		# Instantiate the player and add it to the room
 		player = player_scene.instantiate()
 		current_room_instance.add_child(player)  # Add player to the current room
-		player.global_position = entrance.global_position + Vector2(0, 50)  # Adjust spawn position
+
+		# Set the player's position to the spawn point's position
+		player.global_position = spawn_point.global_position
 		print("Player spawned at: ", player.global_position)
 	else:
-		print("No EntranceDoor found in this room!")
+		print("No PlayerSpawnPoint found in this room!")
