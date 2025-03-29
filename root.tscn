@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://7ala4ajq4svf"]
+[gd_scene load_steps=3 format=3 uid="uid://7ala4ajq4svf"]
 
 [ext_resource type="Script" uid="uid://b44yi2hk2iwvt" path="res://scenes_and_scripts/game_manager.gd" id="1_pyidc"]
+[ext_resource type="PackedScene" uid="uid://blskmwg5xkmu7" path="res://rooms/room_1_left.tscn" id="2_vvh5c"]
 
-[node name="Root" type="Node2D"]
+[node name="GameController" type="Node"]
 script = ExtResource("1_pyidc")
+room_scenes = Array[PackedScene]([ExtResource("2_vvh5c")])
+
+[node name="World" type="Node2D" parent="."]

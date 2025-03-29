@@ -11,19 +11,23 @@ config_version=5
 [application]
 
 config/name="New Game Project"
-run/main_scene="uid://dgkerssrjgeq7"
+run/main_scene="uid://7ala4ajq4svf"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+config/main_scene="uid://7ala4ajq4svf"
 
 [autoload]
 
-GameManager="res://scenes_and_scripts/game_manager.gd"
+Global="*res://global.gd"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=720
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/mode=2
 window/stretch/mode="viewport"
+window/stretch/aspect="expand"
+window/stretch/scale_mode="integer"
 
 [input]
 
