@@ -5,10 +5,10 @@ class_name Door extends StaticBody2D
 @onready var closed_door_layer: TileMapLayer = $ClosedDoorLayer
 @onready var area_south: Area2D = $AreaSouth
 @onready var area_north: Area2D = $AreaNorth
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 var is_open: bool
 var player_in_south: bool = false  # Track if the player is in the south area
-
 
 @export_enum("Entrance", "Exit") var door_type: String = "Entrance" 
 
@@ -18,40 +18,47 @@ func _ready() -> void:
 	# Set up the door based on the door type
 	match door_type:
 		"Entrance":
-			is_open = true
-			animation_player.play("open_door")
+			open_door()
 		"Exit":
-			animation_player.play("close_door")
-			is_open = false
-			
+			close_door()
 
-	
-	# Connect the signals for area detection
-	area_south.connect("area_entered",  _on_area_south_entered)
-	area_south.connect("area_exited", _on_area_south_exited)
-	area_north.connect("area_entered",  _on_area_north_entered)
-	area_north.connect("area_exited",  _on_area_north_exited)
+# Function to open the door
+func open_door() -> void:
+	is_open = true
+	animation_player.play("open_door")
+	# Disable collision
+	collision_shape.disabled = true
+	collision_layer = 0
+	collision_mask = 0
+
+# Function to close the door
+func close_door() -> void:
+	is_open = false
+	animation_player.play("close_door")
+	# Enable collision
+	collision_shape.disabled = false
+	collision_layer = 3 
 
 
-func _on_area_south_entered(area: Area2D) -> void:
-	# When the player enters the south area, mark that they are in the south area
-	if area.is_in_group("player"):
+func _on_area_south_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
 		player_in_south = true
 
-func _on_area_south_exited(area: Area2D) -> void:
-	# When the player exits the south area, mark that they are no longer in the south area
-	if area.is_in_group("player"):
+
+func _on_area_south_body_exited(body: Node2D) -> void:
+	if body.is_in_group("player"):
 		player_in_south = false
 
-func _on_area_north_entered(area: Area2D) -> void:
-	# If the player enters the north area and was already in the south area, emit the signal
-	if area.is_in_group("player") and player_in_south:
+
+func _on_area_north_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player") and player_in_south:
 		if door_type == "Entrance":
-			emit_signal("door_pass", "Entrance")  # Player is passing through the entrance
+			emit_signal("door_pass", "Entrance")
 		elif door_type == "Exit":
-			emit_signal("door_pass", "Exit")  # Player is passing through the exit
+			emit_signal("door_pass", "Exit")
 		player_in_south = false
 
-func _on_area_north_exited(area: Area2D) -> void:
-	if area.is_in_group("player"):
+
+func _on_area_north_body_exited(body: Node2D) -> void:
+	if body.is_in_group("player"):
 		pass

@@ -10,7 +10,7 @@ class_name EnemySpawner
 	$SpawnPointS
 ]
 
-signal waves_complete
+signal waves_complete(current_wave: int, total_waves: int)
 
 var current_wave_index: int = 0
 var spawning: bool = false
@@ -24,7 +24,7 @@ func start_waves():
 func spawn_wave():
 	if current_wave_index >= waves.size():
 		spawning = false
-		waves_complete.emit()
+		waves_complete.emit(current_wave_index, waves.size())
 		return
 
 	var wave: WaveResource = waves[current_wave_index]
@@ -41,6 +41,7 @@ func spawn_wave():
 		await get_tree().create_timer(wave.delay_between_spawns).timeout
 	
 	current_wave_index += 1
+	waves_complete.emit(current_wave_index, waves.size())
 	await get_tree().create_timer(wave.wave_start_delay).timeout
 	spawn_wave()
 

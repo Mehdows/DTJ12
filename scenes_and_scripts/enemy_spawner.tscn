@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://dvi1t6fcjqs7u"]
+
+[ext_resource type="Script" uid="uid://dkcsxaw46aslm" path="res://rooms/enemy_spawner.gd" id="1_oohfn"]
+[ext_resource type="Script" uid="uid://r088mevna2p" path="res://resources/waves/wave_resource.gd" id="2_y7ykn"]
+[ext_resource type="Resource" uid="uid://d3ptilhfmmg7e" path="res://resources/waves/easy_wave.tres" id="3_b610d"]
+
+[node name="EnemySpawner" type="Node2D"]
+script = ExtResource("1_oohfn")
+waves = Array[ExtResource("2_y7ykn")]([ExtResource("3_b610d")])
+
+[node name="SpawnPointN" type="Marker2D" parent="."]
+
+[node name="SpawnPointE" type="Marker2D" parent="."]
+
+[node name="SpawnPointW" type="Marker2D" parent="."]
+
+[node name="SpawnPointS" type="Marker2D" parent="."]

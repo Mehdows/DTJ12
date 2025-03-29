@@ -5,13 +5,13 @@ class_name DoorManager extends Node2D
 
 var room_manager: RoomManager
 
-var is_locked: bool = true  # Start with the door locked
+var is_locked: bool = true 
 var room_cleared: bool = false
 
 signal door_passed(door_type: String) 
 
 
-func _ready() -> void:	
+func _ready() -> void:
 	# Get the parent (RoomManager)
 	room_manager = get_parent()
 	
@@ -38,17 +38,17 @@ func _on_room_cleared():
 
 func update_door_state():
 	if room_cleared:
-		pass
+		if !exit_door.is_open:
+			exit_door.open_door()
+			
 	else:
 		# Room started: Entrance closes, Exit remains closed
 		if entrance_door.is_open:
 			print("Entrance door being closed")
-			entrance_door.is_open = false
-			entrance_door.animation_player.play("close_door")
+			entrance_door.close_door()
 		
 		if exit_door.is_open:
-			exit_door.is_open = false
-			exit_door.animation_player.play("close_door")
+			exit_door.close_door()
 			
 
 	

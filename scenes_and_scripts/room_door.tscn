@@ -121,6 +121,8 @@ radius = 7.0
 height = 48.0
 
 [node name="RoomDoor" type="StaticBody2D"]
+collision_layer = 4
+collision_mask = 4
 script = ExtResource("1_fj4ml")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -142,7 +144,7 @@ libraries = {
 
 [node name="AreaNorth" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 32
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AreaNorth"]
 position = Vector2(-8, 4)
@@ -153,7 +155,7 @@ debug_color = Color(0.988207, 0, 0.304575, 0.42)
 [node name="AreaSouth" type="Area2D" parent="."]
 position = Vector2(0, 2)
 collision_layer = 0
-collision_mask = 32
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AreaSouth"]
 position = Vector2(-8, 20)
@@ -163,3 +165,8 @@ debug_color = Color(0.622856, 0.351977, 1, 0.42)
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 volume_db = -40.0
+
+[connection signal="body_entered" from="AreaNorth" to="." method="_on_area_north_body_entered"]
+[connection signal="body_exited" from="AreaNorth" to="." method="_on_area_north_body_exited"]
+[connection signal="body_entered" from="AreaSouth" to="." method="_on_area_south_body_entered"]
+[connection signal="body_exited" from="AreaSouth" to="." method="_on_area_south_body_exited"]

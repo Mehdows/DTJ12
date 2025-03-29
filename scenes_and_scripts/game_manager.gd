@@ -50,13 +50,18 @@ func _on_room_started():
 
 func _on_room_cleared():
 	print("Room has been cleared, loading next room!")
-	load_next_room()
+	#load_next_room()
 
 # Function to load the next room
 func load_next_room():
 	if current_room_index < room_scenes.size():
 		# Debug print to see which room we're trying to load
 		print("Loading room index: ", current_room_index)
+
+		# Remove the old room if it exists
+		if current_room_instance:
+			print("Removing old room...")
+			current_room_instance.queue_free()  # This will free the old room
 
 		# Instantiate and add the new room
 		current_room_instance = room_scenes[current_room_index].instantiate()
@@ -68,9 +73,9 @@ func load_next_room():
 		# Increment the room index
 		current_room_index += 1
 
-		var room_manager = current_room_instance.get_node("RoomManager")
-		room_manager.connect("room_started", self, "_on_room_started")
-		room_manager.connect("room_cleared", self, "_on_room_cleared")
+		var room_manager = current_room_instance
+		room_manager.connect("room_started", _on_room_started)
+		room_manager.connect("room_cleared", _on_room_cleared)
 	else:
 		print("All rooms completed!")
 
