@@ -8,8 +8,20 @@ script = ExtResource("1_xhpj4")
 
 [node name="EntranceDoor" parent="." instance=ExtResource("2_aynv2")]
 
+[node name="CollisionShape2D" parent="EntranceDoor/AreaNorth" index="0"]
+debug_color = Color(0.988207, 0, 0.304575, 0.42)
+
+[node name="CollisionShape2D" parent="EntranceDoor/AreaSouth" index="0"]
+debug_color = Color(0.622856, 0.351977, 1, 0.42)
+
 [node name="ExitDoor" parent="." instance=ExtResource("2_aynv2")]
 position = Vector2(57, 0)
+
+[node name="CollisionShape2D" parent="ExitDoor/AreaNorth" index="0"]
+debug_color = Color(0.988207, 0, 0.304575, 0.42)
+
+[node name="CollisionShape2D" parent="ExitDoor/AreaSouth" index="0"]
+debug_color = Color(0.622856, 0.351977, 1, 0.42)
 
 [editable path="EntranceDoor"]
 [editable path="ExitDoor"]

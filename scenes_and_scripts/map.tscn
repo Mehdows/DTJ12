@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://b7pybyh2gku08" path="res://scenes_and_scripts/player.tscn" id="1_3ykta"]
 [ext_resource type="TileSet" uid="uid://blxt0n5mf7khe" path="res://resources/dungeon_tileset.tres" id="2_3ykta"]
 [ext_resource type="PackedScene" uid="uid://c6r52wp43hjyh" path="res://scenes_and_scripts/enemy.tscn" id="4_kyglc"]
-[ext_resource type="Resource" uid="uid://ga14cst645mo" path="res://resources/slime_resource.tres" id="5_lahsa"]
+[ext_resource type="Resource" uid="uid://ck31noiukas2e" path="res://resources/slime_resource.tres" id="5_lahsa"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_wijl4"]
 tile_data = PackedInt32Array(0, 0, 5, 65536, 0, 6, 1, 65536, 5, 65537, 65536, 6, 2, 131072, 5, 65538, 131072, 6)
@@ -242,11 +242,13 @@ pattern_3 = SubResource("TileMapPattern_p5pve")
 z_index = 10
 position = Vector2(573, 343)
 
-[node name="Camera2D" parent="Player" index="2" node_paths=PackedStringArray("camera_center_marker")]
+[node name="Camera2D" parent="Player" index="2"]
 zoom = Vector2(4, 4)
 camera_target = NodePath("..")
-camera_center_marker = NodePath("../../Tilemap/CamerCenter")
 camera_radius = 100.0
+
+[node name="CollisionShape2D" parent="Player/PlayerFeetArea" index="0"]
+debug_color = Color(1.39579e-06, 0.645745, 0.253248, 0.42)
 
 [node name="Tilemap" type="Node" parent="."]
 

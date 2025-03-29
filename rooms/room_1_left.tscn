@@ -287,8 +287,20 @@ position = Vector2(598, 529)
 [node name="AnimationPlayer" parent="DoorsManager/EntranceDoor" index="3"]
 autoplay = "open_door"
 
+[node name="CollisionShape2D" parent="DoorsManager/EntranceDoor/AreaNorth" index="0"]
+debug_color = Color(0.988207, 0, 0.304575, 0.42)
+
+[node name="CollisionShape2D" parent="DoorsManager/EntranceDoor/AreaSouth" index="0"]
+debug_color = Color(0.622856, 0.351977, 1, 0.42)
+
 [node name="ExitDoor" parent="DoorsManager" index="1"]
 position = Vector2(598, 161)
+
+[node name="CollisionShape2D" parent="DoorsManager/ExitDoor/AreaNorth" index="0"]
+debug_color = Color(0.988207, 0, 0.304575, 0.42)
+
+[node name="CollisionShape2D" parent="DoorsManager/ExitDoor/AreaSouth" index="0"]
+debug_color = Color(0.622856, 0.351977, 1, 0.42)
 
 [editable path="DoorsManager"]
 [editable path="DoorsManager/EntranceDoor"]

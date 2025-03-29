@@ -1,5 +1,5 @@
-extends Resource
-class_name PlayerResource 
+class_name PlayerResource extends Resource
+
 
 @export var health: int = 20
 @export var shape: Shape2D = CircleShape2D.new()
