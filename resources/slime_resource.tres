@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="EnemyResource" load_steps=6 format=3 uid="uid://ga14cst645mo"]
+
+[ext_resource type="Script" uid="uid://dbu08eym18n84" path="res://resources/enemy_resource.gd" id="1_fabrb"]
+[ext_resource type="Texture2D" uid="uid://dgydpclv6hrao" path="res://assets/character_tileset/LargeSlime_Grey.png" id="2_ia153"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fabrb"]
+radius = 20.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kn4wm"]
+atlas = ExtResource("2_ia153")
+region = Rect2(0, 0, 310, 300)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dxi0d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kn4wm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[resource]
+script = ExtResource("1_fabrb")
+health = 20
+attack = 20
+shape = SubResource("CircleShape2D_fabrb")
+sprite = SubResource("SpriteFrames_dxi0d")
+metadata/_custom_type_script = "uid://dbu08eym18n84"
