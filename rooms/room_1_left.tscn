@@ -159,7 +159,7 @@ script = ExtResource("5_fltfd")
 [node name="TransitionCamera" type="Camera2D" parent="Transition"]
 unique_name_in_owner = true
 position = Vector2(3, -158)
-zoom = Vector2(5, 5)
+zoom = Vector2(3, 3)
 
 [node name="TransitionAnimationPlayer" type="AnimationPlayer" parent="Transition"]
 root_node = NodePath("../..")

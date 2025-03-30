@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://b7pybyh2gku08"]
+[gd_scene load_steps=48 format=3 uid="uid://c0txwtmk8quqc"]
 
 [ext_resource type="Resource" uid="uid://cwf53vg7bwmhe" path="res://resources/main_character.tres" id="1_23chc"]
 [ext_resource type="PackedScene" uid="uid://3jomb47e456g" path="res://scenes_and_scripts/hurt_box.tscn" id="2_e8vqu"]
@@ -202,10 +202,11 @@ func _on_health_component_death() -> void:
 	animation_player.play(\"death\")
 	set_physics_process(false)
 	can_attack = false
-	
-	
-func _go_to_main_menu() -> void:
-	get_tree().change_scene_to_file(\"res://scenes_and_scripts/menu/menu.tscn\")
+	var fade_overlay = get_tree().get_first_node_in_group(\"death_ui\")
+	if fade_overlay:
+		fade_overlay.start_fade()
+	else:
+		print(\"Error: No node in group 'death_ui' found!\")
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_23chc"]
@@ -496,17 +497,6 @@ tracks/0/keys = {
 "update": 1,
 "values": [Vector2i(8, 4), Vector2i(9, 4), Vector2i(10, 4), Vector2i(11, 4), Vector2i(0, 5)]
 }
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("..")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
-"values": []
-}
 
 [sub_resource type="Animation" id="Animation_xsro1"]
 resource_name = "death"
@@ -549,7 +539,7 @@ _data = {
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 10
 collision_layer = 4
-collision_mask = 212
+collision_mask = 20
 script = SubResource("GDScript_onrkg")
 resource = ExtResource("1_23chc")
 slash_sound = Array[AudioStream]([ExtResource("7_67v6a"), ExtResource("3_6yuj4")])
