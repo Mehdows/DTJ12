@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://b4pfk0m1n7i6i"]
+
+[ext_resource type="Texture2D" uid="uid://dgfvd41682hew" path="res://assets/dash.png" id="1_t05ca"]
+[ext_resource type="Script" uid="uid://bqp2jiii1o1s7" path="res://resources/augments/dash_augment.gd" id="1_uv5yn"]
+
+[resource]
+script = ExtResource("1_uv5yn")
+image = ExtResource("1_t05ca")
+title = "Dash"
+description = "A ability that lets you dash while moving using the \"SHIFT\" key. Makes you invincible and deals 1.5 damage to monsters in your path"
+metadata/_custom_type_script = "uid://b7je8tki7v8jl"

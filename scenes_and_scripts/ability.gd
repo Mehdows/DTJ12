@@ -13,8 +13,7 @@ func _ready() -> void:
 	timer.connect("timeout", Callable(self, "_reset_cooldown"))
 
 func _input(event: InputEvent) -> void:
-	print(event.as_text())
-	if event.is_action_pressed(ability_name_event):
+	if event.is_action_pressed(ability_name_event) and get_parent().can_attack:
 		if on_cooldown:
 			return
 		ability()

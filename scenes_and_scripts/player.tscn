@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://b7pybyh2gku08"]
+[gd_scene load_steps=47 format=3 uid="uid://b7pybyh2gku08"]
 
 [ext_resource type="Resource" uid="uid://cwf53vg7bwmhe" path="res://resources/main_character.tres" id="1_23chc"]
 [ext_resource type="PackedScene" uid="uid://3jomb47e456g" path="res://scenes_and_scripts/hurt_box.tscn" id="2_e8vqu"]
@@ -7,8 +7,6 @@
 [ext_resource type="Script" uid="uid://d1wnnuq882a47" path="res://scenes_and_scripts/clamped_follow_camera.gd" id="3_44uky"]
 [ext_resource type="PackedScene" uid="uid://dn5ik34crhhyi" path="res://scenes_and_scripts/health_component.tscn" id="4_f8gj8"]
 [ext_resource type="AudioStream" uid="uid://4ocl38a514nc" path="res://assets/sound/sword-sound-2-36274.mp3" id="7_67v6a"]
-[ext_resource type="PackedScene" uid="uid://h8mofifu2cbw" path="res://scenes_and_scripts/laserability.tscn" id="8_67v6a"]
-[ext_resource type="PackedScene" uid="uid://1cptwppfa65o" path="res://scenes_and_scripts/dash.tscn" id="9_6yuj4"]
 
 [sub_resource type="GDScript" id="GDScript_onrkg"]
 script/source = "class_name PlayerCharacter extends CharacterBody2D
@@ -547,13 +545,8 @@ frame = 98
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 volume_db = -20.0
 
-[node name="LaserAbility" parent="." instance=ExtResource("8_67v6a")]
-
-[node name="dash" parent="." instance=ExtResource("9_6yuj4")]
-
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
 [connection signal="area_exited" from="HurtBox" to="." method="_on_hurt_box_area_exited"]
 [connection signal="death" from="HealthComponent" to="." method="_on_health_component_death"]
 
 [editable path="HurtBox"]
-[editable path="LaserAbility"]
