@@ -179,7 +179,8 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 			reset_timer.connect(\"timeout\", Callable(self, \"_reset_attack_after_hit\"))
 			add_child(reset_timer)
 			reset_timer.start()
-
+			audio_stream_player_2d.stream = preload(\"res://assets/sound/retro-hurt.mp3\")
+			audio_stream_player_2d.play()
 		active_areas[area] = timer
 		
 		
