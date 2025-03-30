@@ -150,6 +150,7 @@ position = Vector2(16, 192)
 
 [node name="ExitDoor" parent="DoorsManager" index="1"]
 position = Vector2(16, -178)
+collision_layer = 0
 door_type = "Exit"
 
 [node name="Transition" type="Node" parent="."]

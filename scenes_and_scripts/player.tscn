@@ -171,7 +171,6 @@ func _end_dash():
 
 
 func _physics_process(_delta):
-	print(\"dashing\", is_dashing)
 	if is_dashing:
 		dash_timer -= _delta
 		if dash_timer <= 0:
@@ -584,6 +583,7 @@ libraries = {
 }
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
+y_sort_enabled = true
 texture = ExtResource("2_onrkg")
 offset = Vector2(-32, 0)
 flip_h = true

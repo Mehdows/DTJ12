@@ -24,24 +24,12 @@ func _ready() -> void:
 
 # Function to open the door
 func open_door() -> void:
-	is_open = true
 	animation_player.play("open_door")
-	# Disable collision
-	collision_shape.disabled = true
-	collision_layer = 0
-	collision_mask = 0
+
 
 # Function to close the door
 func close_door() -> void:
-	is_open = false
 	animation_player.play("close_door")
-	# Enable collision
-	collision_shape.disabled = false
-	collision_layer = 3
-	collision_layer = 5
-	collision_mask = 3
-	collision_mask = 5
-
 
 
 func _on_area_south_body_entered(body: Node2D) -> void:
@@ -66,3 +54,17 @@ func _on_area_north_body_entered(body: Node2D) -> void:
 func _on_area_north_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		pass
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "close_door":
+		is_open = false
+		collision_shape.disabled = false
+		collision_layer = 5
+		collision_mask = 5
+	elif anim_name == "open_door":
+		is_open = true
+
+		collision_shape.disabled = true
+		collision_layer = 0
+		collision_mask = 0
