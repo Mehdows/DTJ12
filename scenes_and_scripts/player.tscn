@@ -520,7 +520,7 @@ shape = SubResource("CapsuleShape2D_f8gj8")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 z_index = 1
-zoom = Vector2(3, 3)
+zoom = Vector2(2, 2)
 script = ExtResource("3_44uky")
 
 [node name="HealthComponent" parent="." instance=ExtResource("4_f8gj8")]
