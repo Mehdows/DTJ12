@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://b7pybyh2gku08"]
+[gd_scene load_steps=57 format=3 uid="uid://b7pybyh2gku08"]
 
 [ext_resource type="Resource" uid="uid://cwf53vg7bwmhe" path="res://resources/main_character.tres" id="1_23chc"]
 [ext_resource type="PackedScene" uid="uid://3jomb47e456g" path="res://scenes_and_scripts/hurt_box.tscn" id="2_e8vqu"]
@@ -125,6 +125,9 @@ func _physics_process(_delta):
 var active_areas: Dictionary = {}
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
+	if health_component.health <= 0:
+		return  
+
 	if area not in active_areas:
 		var timer := Timer.new()
 		timer.wait_time = 1.0  # Adjust damage interval as needed
@@ -132,9 +135,35 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 		timer.one_shot = false
 		timer.connect(\"timeout\", Callable(self, \"_deal_damage\").bind(area))
 		add_child(timer)
-		
-		health_component.take_damage(area.damage)  # Deal initial damage immediately
+
+		health_component.take_damage(area.damage)
+
+		# If the player is now dead, play death animation and stop further actions
+		if health_component.health <= 0:
+			animation_player.play(\"death\")
+			set_physics_process(false)
+			can_attack = false
+			return  
+
+		# Play hit animation if not dashing or attacking
+		if animation_player.current_animation != \"attack\":
+			animation_player.play(\"hit\")
+			can_attack = false  # Temporarily disable attacking during hit
+
+			# Set a timer to re-enable attack after hit animation finishes
+			var reset_timer := Timer.new()
+			reset_timer.wait_time = animation_player.get_animation(\"hit\").length
+			reset_timer.one_shot = true
+			reset_timer.connect(\"timeout\", Callable(self, \"_reset_attack_after_hit\"))
+			add_child(reset_timer)
+			reset_timer.start()
+
 		active_areas[area] = timer
+		
+		
+func _reset_attack_after_hit() -> void:
+	can_attack = true
+
 
 func _on_hurt_box_area_exited(area: Area2D) -> void:
 	if area in active_areas:
@@ -142,6 +171,9 @@ func _on_hurt_box_area_exited(area: Area2D) -> void:
 		active_areas.erase(area)
 
 func _deal_damage(area: Area2D) -> void:
+	if health_component.health <= 0:
+		return
+	
 	if area in active_areas and not invincible:
 		health_component.take_damage(area.damage)
 
@@ -548,12 +580,30 @@ tracks/1/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_67v6a"]
+resource_name = "hit"
+length = 0.214293
+step = 0.0714286
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0714286, 0.142857),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [84, 85, 84]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_18yci"]
 _data = {
 &"RESET": SubResource("Animation_23chc"),
 &"attack": SubResource("Animation_flsit"),
 &"dash": SubResource("Animation_hq3xq"),
-&"death": SubResource("Animation_xsro1")
+&"death": SubResource("Animation_xsro1"),
+&"hit": SubResource("Animation_67v6a")
 }
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
