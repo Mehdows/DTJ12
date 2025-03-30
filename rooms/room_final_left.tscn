@@ -13,8 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://biduuutk0hcq7" path="res://assets/free-pixel-art-cloud-and-sky-backgrounds/3. NEW CLOUDS/4.png" id="10_161yg"]
 [ext_resource type="Texture2D" uid="uid://dv5roml01kfis" path="res://assets/free-pixel-art-cloud-and-sky-backgrounds/3. NEW CLOUDS/5.png" id="11_3mri8"]
 [ext_resource type="Texture2D" uid="uid://cqgdqrl4s60l5" path="res://assets/free-pixel-art-cloud-and-sky-backgrounds/3. NEW CLOUDS/6.png" id="12_1gw33"]
-[ext_resource type="Script" uid="uid://c6uj7prkdtqom" path="res://rooms/reward_spawner.gd" id="13_4gmar"]
-[ext_resource type="PackedScene" uid="uid://bsmfko6hjnhb4" path="res://reward_giver.tscn" id="14_yjepd"]
+[ext_resource type="Script" path="res://rooms/reward_spawner.gd" id="13_4gmar"]
+[ext_resource type="PackedScene" uid="uid://bsmfko6hjnhb4" path="res://scenes_and_scripts/augments/reward_giver.tscn" id="14_yjepd"]
 [ext_resource type="Script" uid="uid://bminxhf1bw3uk" path="res://rooms/boss_trigger.gd" id="15_ane3f"]
 [ext_resource type="Script" uid="uid://b5jtfmretnw5r" path="res://rooms/transition_camera.gd" id="15_nm3tk"]
 
