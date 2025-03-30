@@ -37,7 +37,11 @@ func close_door() -> void:
 	animation_player.play("close_door")
 	# Enable collision
 	collision_shape.disabled = false
-	collision_layer = 3 
+	collision_layer = 3
+	collision_layer = 5
+	collision_mask = 3
+	collision_mask = 5
+
 
 
 func _on_area_south_body_entered(body: Node2D) -> void:

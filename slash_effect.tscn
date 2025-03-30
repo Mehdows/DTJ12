@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://bcny3misdibhr"]
+
+[ext_resource type="Script" uid="uid://ox18relh3kgg" path="res://slash_effect.gd" id="1_n6ho7"]
+[ext_resource type="Texture2D" uid="uid://c1ru6lukuvtxk" path="res://assets/Smear VFX 01/Smear 01 Vertical 01.png" id="2_qbsw2"]
+
+[sub_resource type="Animation" id="Animation_xsro1"]
+resource_name = "slash"
+length = 0.2
+step = 0.0714286
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VFXSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0429845, 0.0886486, 0.134598, 0.17811),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+
+[sub_resource type="Animation" id="Animation_67v6a"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VFXSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6yuj4"]
+_data = {
+&"RESET": SubResource("Animation_67v6a"),
+&"slash": SubResource("Animation_xsro1")
+}
+
+[node name="SlashEffect" type="Node2D"]
+script = ExtResource("1_n6ho7")
+
+[node name="AttackAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_6yuj4")
+}
+
+[node name="VFXSprite" type="Sprite2D" parent="."]
+scale = Vector2(2, 3)
+texture = ExtResource("2_qbsw2")
+hframes = 6
