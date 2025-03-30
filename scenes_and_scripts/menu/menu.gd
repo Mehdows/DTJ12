@@ -2,6 +2,7 @@ extends Control
 
 
 func _ready() -> void:
+	MusicManager.play_music(preload("res://assets/music/menu-music-251877.ogg"), true, -10.0)
 	$VBoxContainer/StartButton.grab_focus()
 
 

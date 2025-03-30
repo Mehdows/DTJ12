@@ -19,6 +19,7 @@ config/main_scene="uid://7ala4ajq4svf"
 [autoload]
 
 Global="*res://global.gd"
+MusicManager="*res://scenes_and_scripts/music_manager.gd"
 
 [display]
 
