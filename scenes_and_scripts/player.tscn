@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://b7pybyh2gku08"]
+[gd_scene load_steps=47 format=3 uid="uid://b7pybyh2gku08"]
 
 [ext_resource type="Resource" uid="uid://cwf53vg7bwmhe" path="res://resources/main_character.tres" id="1_23chc"]
 [ext_resource type="PackedScene" uid="uid://3jomb47e456g" path="res://scenes_and_scripts/hurt_box.tscn" id="2_e8vqu"]
@@ -199,7 +199,13 @@ func _deal_damage(area: Area2D) -> void:
 
 
 func _on_health_component_death() -> void:
-	$\".\".queue_free() #TEMP 
+	animation_player.play(\"death\")
+	set_physics_process(false)
+	can_attack = false
+	
+	
+func _go_to_main_menu() -> void:
+	get_tree().change_scene_to_file(\"res://scenes_and_scripts/menu/menu.tscn\")
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_23chc"]
@@ -257,6 +263,42 @@ region = Rect2(1536, 256, 128, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_fp8g4"]
 atlas = ExtResource("2_onrkg")
 region = Rect2(1664, 256, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_flsit"]
+atlas = ExtResource("2_onrkg")
+region = Rect2(0, 448, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_18yci"]
+atlas = ExtResource("2_onrkg")
+region = Rect2(128, 448, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y1b2a"]
+atlas = ExtResource("2_onrkg")
+region = Rect2(256, 448, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8e4wn"]
+atlas = ExtResource("2_onrkg")
+region = Rect2(384, 448, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sd6qx"]
+atlas = ExtResource("2_onrkg")
+region = Rect2(512, 448, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f633a"]
+atlas = ExtResource("2_onrkg")
+region = Rect2(640, 448, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_squxd"]
+atlas = ExtResource("2_onrkg")
+region = Rect2(768, 448, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pd8la"]
+atlas = ExtResource("2_onrkg")
+region = Rect2(896, 448, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c0vsp"]
+atlas = ExtResource("2_onrkg")
+region = Rect2(1024, 448, 128, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i3pqv"]
 atlas = ExtResource("2_onrkg")
@@ -341,6 +383,38 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_flsit")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_18yci")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y1b2a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8e4wn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sd6qx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f633a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_squxd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pd8la")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c0vsp")
+}],
+"loop": true,
+"name": &"death",
+"speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_i3pqv")
 }],
 "loop": true,
@@ -393,6 +467,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [Vector2i(0, 4)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../PlayerSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [98]
+}
 
 [sub_resource type="Animation" id="Animation_flsit"]
 resource_name = "attack"
@@ -411,10 +497,42 @@ tracks/0/keys = {
 "values": [Vector2i(8, 4), Vector2i(9, 4), Vector2i(10, 4), Vector2i(11, 4), Vector2i(0, 5)]
 }
 
+[sub_resource type="Animation" id="Animation_xsro1"]
+resource_name = "death"
+length = 1.14287
+step = 0.142857
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.142857, 0.285714, 0.428571, 0.571428, 0.714285, 0.857142, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [98, 99, 100, 101, 102, 103, 104, 106]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.14286),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_go_to_main_menu"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_18yci"]
 _data = {
 &"RESET": SubResource("Animation_23chc"),
-&"attack": SubResource("Animation_flsit")
+&"attack": SubResource("Animation_flsit"),
+&"death": SubResource("Animation_xsro1")
 }
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
@@ -428,8 +546,7 @@ slash_sound = Array[AudioStream]([ExtResource("7_67v6a"), ExtResource("3_6yuj4")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = SubResource("SpriteFrames_hqtel")
-animation = &"slash"
-frame_progress = 0.555312
+animation = &"attack"
 
 [node name="HurtBox" parent="." instance=ExtResource("2_e8vqu")]
 
@@ -460,7 +577,7 @@ offset = Vector2(-32, 0)
 flip_h = true
 hframes = 14
 vframes = 8
-frame = 56
+frame = 98
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 volume_db = -20.0

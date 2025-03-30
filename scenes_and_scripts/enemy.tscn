@@ -1,5 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://c6r52wp43hjyh"]
+[gd_scene load_steps=14 format=3 uid="uid://c6r52wp43hjyh"]
 
+[ext_resource type="AudioStream" uid="uid://dw0rnfjy0bi78" path="res://assets/sound/slimejump-6913.mp3" id="1_2vo1a"]
 [ext_resource type="Texture2D" uid="uid://dgydpclv6hrao" path="res://assets/character_tileset/LargeSlime_Grey.png" id="1_e5mcl"]
 [ext_resource type="PackedScene" uid="uid://3jomb47e456g" path="res://scenes_and_scripts/hurt_box.tscn" id="1_r7706"]
 [ext_resource type="PackedScene" uid="uid://celm56g665rwr" path="res://scenes_and_scripts/hit_box.tscn" id="2_e5mcl"]
@@ -16,9 +17,12 @@ script/source = "class_name Enemy extends CharacterBody2D
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var monster_ai: MonsterAI = $MonsterAI
 @onready var hit_box: HitBox = $HitBox
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@export var knockback_decay: float = 5.0
+
 
 func _ready() -> void:
-	animated_sprite_2d.sprite_frames = resource.sprite
+	#animated_sprite_2d.sprite_frames = resource.sprite
 	hit_box.damage = resource.attack
 	hurtbox_col.shape = resource.shape
 	hitbox_col.shape = resource.shape
@@ -29,7 +33,17 @@ func _ready() -> void:
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
 	health_component.take_damage(area.damage)
+	animation_player.play(\"hit\")
+	
+	# Knockback effect
+	var player_pos = get_player_position()
+	var enemy_pos = global_position
+	var knockback_direction = (enemy_pos - player_pos).normalized() # Get direction away from player
+	var knockback_strength = 200.0 # Adjust this value for more or less knockback
 
+	velocity += knockback_direction * knockback_strength
+
+	monster_ai.start_chase_cooldown()
 
 func _on_health_component_death() -> void:
 	$\".\".queue_free()
@@ -39,11 +53,99 @@ func _physics_process(_delta: float) -> void:
 		animated_sprite_2d.flip_h = 1
 	else:
 		animated_sprite_2d.flip_h = 0
+		
+	velocity = velocity.lerp(Vector2.ZERO, knockback_decay * _delta) # Smoothly reduce knockback over time
+	move_and_slide()
+
+func get_player_position() -> Vector2:
+	if Global.game_controller.player:
+		return Global.game_controller.player.global_position
+	return Vector2.ZERO
 "
+
+[sub_resource type="Animation" id="Animation_q3pe1"]
+resource_name = "hit"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0995224),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(5, 5, 5, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.197688),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [&"hit", &"default"]
+}
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.051,
+"stream": ExtResource("1_2vo1a")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/2/use_blend = true
+
+[sub_resource type="Animation" id="Animation_2vo1a"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"default"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_krh6d"]
+_data = {
+&"RESET": SubResource("Animation_2vo1a"),
+&"hit": SubResource("Animation_q3pe1")
+}
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n8rnd"]
 atlas = ExtResource("1_e5mcl")
 region = Rect2(0, 0, 308, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_butvl"]
+atlas = ExtResource("1_e5mcl")
+region = Rect2(0, 310, 310, 310)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_q3pe1"]
 animations = [{
@@ -54,6 +156,14 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_butvl")
+}],
+"loop": true,
+"name": &"hit",
+"speed": 5.0
 }]
 
 [node name="Enemy" type="CharacterBody2D"]
@@ -62,9 +172,20 @@ collision_layer = 3
 collision_mask = 3
 script = SubResource("GDScript_n8rnd")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../AudioStreamPlayer2D")
+libraries = {
+&"": SubResource("AnimationLibrary_krh6d")
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+volume_db = -5.0
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_q3pe1")
+autoplay = "default"
+frame_progress = 0.555828
 
 [node name="HealthComponent" parent="." instance=ExtResource("4_n8rnd")]
 
@@ -77,6 +198,8 @@ collision_layer = 2
 damage = 1
 
 [node name="MonsterAI" parent="." instance=ExtResource("5_q3pe1")]
+
+[node name="CooldownTimer" type="Timer" parent="MonsterAI"]
 
 [connection signal="death" from="HealthComponent" to="." method="_on_health_component_death"]
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
