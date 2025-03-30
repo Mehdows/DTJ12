@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://h8mofifu2cbw"]
+
+[ext_resource type="Script" uid="uid://dufhxyy8qwqri" path="res://scenes_and_scripts/laserability.gd" id="1_m3eoe"]
+
+[node name="LaserAbility" type="Node2D"]
+script = ExtResource("1_m3eoe")

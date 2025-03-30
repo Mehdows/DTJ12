@@ -1,9 +1,8 @@
-extends Area2D
+extends HitBox
 
 @onready var line: Line2D = $Line2D
 
 @export var speed: float = 1000
-@export var damage: int = 100
 @export var lifetime: float = 1.0
 
 var direction: Vector2
@@ -24,7 +23,3 @@ func _ready():
 	
 func _process(delta):
 	global_position += direction * speed * delta
-
-func _on_body_entered(body):
-	if body.has_method("take_damage"):
-		body.take_damage(damage)

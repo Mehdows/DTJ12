@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://b7pybyh2gku08"]
+[gd_scene load_steps=48 format=3 uid="uid://b7pybyh2gku08"]
 
 [ext_resource type="Resource" uid="uid://cwf53vg7bwmhe" path="res://resources/main_character.tres" id="1_23chc"]
 [ext_resource type="PackedScene" uid="uid://3jomb47e456g" path="res://scenes_and_scripts/hurt_box.tscn" id="2_e8vqu"]
@@ -7,12 +7,13 @@
 [ext_resource type="Script" uid="uid://d1wnnuq882a47" path="res://scenes_and_scripts/clamped_follow_camera.gd" id="3_44uky"]
 [ext_resource type="PackedScene" uid="uid://dn5ik34crhhyi" path="res://scenes_and_scripts/health_component.tscn" id="4_f8gj8"]
 [ext_resource type="AudioStream" uid="uid://4ocl38a514nc" path="res://assets/sound/sword-sound-2-36274.mp3" id="7_67v6a"]
+[ext_resource type="PackedScene" path="res://scenes_and_scripts/laserability.tscn" id="8_67v6a"]
 
 [sub_resource type="GDScript" id="GDScript_onrkg"]
 script/source = "class_name PlayerCharacter extends CharacterBody2D
 
 const HIT_BOX = preload(\"res://scenes_and_scripts/hit_box.tscn\")
-const LASER = preload(\"res://scenes_and_scripts/laser.tscn\")
+
 
 @onready var health_component: Node2D = $HealthComponent
 @onready var collision_shape_2d: CollisionShape2D = $HurtBox/CollisionShape2D
@@ -24,14 +25,15 @@ const LASER = preload(\"res://scenes_and_scripts/laser.tscn\")
 
 
 @export var speed = 200
-@export var damage = 20
+@export var damage = 50
 @export var attack_distance = 30
+@export var dash_enable = false
 @export var dash_speed = 500
 @export var dash_damage = 50
 @export var dash_attack_size = 30
 @export var dash_duration = 0.2
 @export var dash_cooldown = 1.0
-@export var ability_1_cooldown = 5.0
+
 @export var resource: PlayerResource
 @export var slash_sound: Array[AudioStream] = []
 @export var slash_scene: PackedScene = preload(\"res://slash_effect.tscn\")
@@ -41,7 +43,7 @@ var is_dashing = false
 var dash_timer = 0.0
 var dash_cooldown_timer = 0.0
 var dash_direction = Vector2.ZERO
-var can_use_ability_1 = true
+
 var dash_attack: Area2D = null
 var current_sound_index = 0
 var can_attack = true
@@ -49,7 +51,6 @@ var attack_cooldown = 0.2
 
 func _ready() -> void:
 	collision_shape_2d.shape = resource.shape
-	
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 func _input(event: InputEvent) -> void:
@@ -112,29 +113,9 @@ func _input(event: InputEvent) -> void:
 		timer.one_shot = true
 		timer.connect(\"timeout\", Callable(self, \"_remove_attack\").bind(attack, timer))
 		add_child(timer)
-	elif event.is_action_pressed(\"ability_1\"):
-		ability_1()
-		
-func ability_1() -> void:
-	if not can_use_ability_1:
-		return
-		
-	var laser = LASER.instantiate()
-	laser.global_position = global_position  # Start at player
-	laser.direction = (get_global_mouse_position() - global_position).normalized()
-	add_sibling(laser)  # Add to the same level as the player (not as a child, so it moves freely)
 	
-	# Start cooldown
-	can_use_ability_1 = false
-	var cooldown_timer = Timer.new()
-	cooldown_timer.wait_time = ability_1_cooldown
-	cooldown_timer.one_shot = true
-	cooldown_timer.connect(\"timeout\", Callable(self, \"_reset_ability_1_cooldown\"))
-	add_child(cooldown_timer)
-	cooldown_timer.start()
-	
-func _reset_ability_1_cooldown():
-	can_use_ability_1 = true
+		
+
 		
 func _remove_attack(attack,timer):
 	attack.queue_free()
@@ -218,7 +199,13 @@ func _deal_damage(area: Area2D) -> void:
 
 
 func _on_health_component_death() -> void:
-	$\".\".queue_free() #TEMP
+	animation_player.play(\"death\")
+	set_physics_process(false)
+	can_attack = false
+	
+	
+func _go_to_main_menu() -> void:
+	get_tree().change_scene_to_file(\"res://scenes_and_scripts/menu/menu.tscn\")
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_23chc"]
@@ -276,6 +263,42 @@ region = Rect2(1536, 256, 128, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_fp8g4"]
 atlas = ExtResource("2_onrkg")
 region = Rect2(1664, 256, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_flsit"]
+atlas = ExtResource("2_onrkg")
+region = Rect2(0, 448, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_18yci"]
+atlas = ExtResource("2_onrkg")
+region = Rect2(128, 448, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y1b2a"]
+atlas = ExtResource("2_onrkg")
+region = Rect2(256, 448, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8e4wn"]
+atlas = ExtResource("2_onrkg")
+region = Rect2(384, 448, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sd6qx"]
+atlas = ExtResource("2_onrkg")
+region = Rect2(512, 448, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f633a"]
+atlas = ExtResource("2_onrkg")
+region = Rect2(640, 448, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_squxd"]
+atlas = ExtResource("2_onrkg")
+region = Rect2(768, 448, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pd8la"]
+atlas = ExtResource("2_onrkg")
+region = Rect2(896, 448, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c0vsp"]
+atlas = ExtResource("2_onrkg")
+region = Rect2(1024, 448, 128, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i3pqv"]
 atlas = ExtResource("2_onrkg")
@@ -360,6 +383,38 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_flsit")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_18yci")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y1b2a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8e4wn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sd6qx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f633a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_squxd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pd8la")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c0vsp")
+}],
+"loop": true,
+"name": &"death",
+"speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_i3pqv")
 }],
 "loop": true,
@@ -412,6 +467,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [Vector2i(0, 4)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../PlayerSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [98]
+}
 
 [sub_resource type="Animation" id="Animation_flsit"]
 resource_name = "attack"
@@ -441,10 +508,42 @@ tracks/1/keys = {
 "values": []
 }
 
+[sub_resource type="Animation" id="Animation_xsro1"]
+resource_name = "death"
+length = 1.14287
+step = 0.142857
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.142857, 0.285714, 0.428571, 0.571428, 0.714285, 0.857142, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [98, 99, 100, 101, 102, 103, 104, 106]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.14286),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_go_to_main_menu"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_18yci"]
 _data = {
 &"RESET": SubResource("Animation_23chc"),
-&"attack": SubResource("Animation_flsit")
+&"attack": SubResource("Animation_flsit"),
+&"death": SubResource("Animation_xsro1")
 }
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
@@ -458,8 +557,7 @@ slash_sound = Array[AudioStream]([ExtResource("7_67v6a"), ExtResource("3_6yuj4")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = SubResource("SpriteFrames_hqtel")
-animation = &"slash"
-frame_progress = 0.555312
+animation = &"attack"
 
 [node name="HurtBox" parent="." instance=ExtResource("2_e8vqu")]
 
@@ -490,13 +588,16 @@ offset = Vector2(-32, 0)
 flip_h = true
 hframes = 14
 vframes = 8
-frame = 56
+frame = 98
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 volume_db = -20.0
+
+[node name="LaserAbility" parent="." instance=ExtResource("8_67v6a")]
 
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
 [connection signal="area_exited" from="HurtBox" to="." method="_on_hurt_box_area_exited"]
 [connection signal="death" from="HealthComponent" to="." method="_on_health_component_death"]
 
 [editable path="HurtBox"]
+[editable path="LaserAbility"]
