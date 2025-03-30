@@ -32,10 +32,16 @@ func _ready() -> void:
 
 func ability() -> void:
 	var parent = get_parent()
-	var direction = (parent.velocity).normalized()
+	var direction = parent.velocity.normalized()
+
+	# Use last input direction if standing still
+	if direction == Vector2.ZERO:
+		direction = parent.last_input_direction
+
+	# If still zero (e.g., no movement input yet), prevent dash
 	if direction == Vector2.ZERO:
 		return
-		
+	
 	parent.immovable = true
 	parent.invincible = true
 	parent.velocity = direction * dash_speed
