@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://b7pybyh2gku08"]
+[gd_scene load_steps=60 format=3 uid="uid://b7pybyh2gku08"]
 
 [ext_resource type="Resource" uid="uid://cwf53vg7bwmhe" path="res://resources/main_character.tres" id="1_23chc"]
 [ext_resource type="PackedScene" uid="uid://3jomb47e456g" path="res://scenes_and_scripts/hurt_box.tscn" id="2_e8vqu"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://d1wnnuq882a47" path="res://scenes_and_scripts/clamped_follow_camera.gd" id="3_44uky"]
 [ext_resource type="PackedScene" uid="uid://dn5ik34crhhyi" path="res://scenes_and_scripts/health_component.tscn" id="4_f8gj8"]
 [ext_resource type="AudioStream" uid="uid://4ocl38a514nc" path="res://assets/sound/sword-sound-2-36274.mp3" id="7_67v6a"]
+[ext_resource type="AudioStream" uid="uid://bkkvd60oi86dw" path="res://assets/sound/swoosh.mp3" id="8_6yuj4"]
 [ext_resource type="PackedScene" uid="uid://1cptwppfa65o" path="res://scenes_and_scripts/dash.tscn" id="8_67v6a"]
 
 [sub_resource type="GDScript" id="GDScript_onrkg"]
@@ -38,6 +39,7 @@ var can_attack = true
 var attack_cooldown = 0.2
 var immovable = false
 var invincible = false
+var last_input_direction := Vector2.ZERO
 
 var movement_locked = false  # Flag to lock player movement
 
@@ -118,6 +120,8 @@ func _on_animation_finished(anim_name: String) -> void:
 func get_input():
 	if not immovable and not movement_locked:
 		var input_direction = Input.get_vector(\"move_left\", \"move_right\", \"move_up\", \"move_down\")
+		if input_direction != Vector2.ZERO:
+			last_input_direction = input_direction  # Update only when there is movement
 		velocity = input_direction * speed
 
 func _physics_process(_delta):
@@ -566,6 +570,21 @@ tracks/0/keys = {
 "update": 1,
 "values": [58, 60, 60, 61, 62, 69]
 }
+tracks/1/type = "audio"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../AudioStreamPlayer2D")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("8_6yuj4")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/1/use_blend = true
 
 [sub_resource type="Animation" id="Animation_xsro1"]
 resource_name = "death"
