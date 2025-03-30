@@ -24,7 +24,6 @@ offset_right = 60.0
 offset_bottom = 11.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(2, 2)
 pivot_offset = Vector2(60, 20)
 
 [node name="BackButton" type="Button" parent="VBoxContainer"]
