@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://b7pybyh2gku08"]
+[gd_scene load_steps=59 format=3 uid="uid://b7pybyh2gku08"]
 
 [ext_resource type="Resource" uid="uid://cwf53vg7bwmhe" path="res://resources/main_character.tres" id="1_23chc"]
 [ext_resource type="PackedScene" uid="uid://3jomb47e456g" path="res://scenes_and_scripts/hurt_box.tscn" id="2_e8vqu"]
@@ -123,6 +123,11 @@ func get_input():
 func _physics_process(_delta):
 	get_input()
 	move_and_slide()
+
+	if velocity == Vector2.ZERO and animation_player.current_animation not in [\"attack\", \"hit\", \"death\", \"dash\"]:
+		animation_player.play(\"idle\")
+	elif velocity != Vector2.ZERO and animation_player.current_animation not in [\"attack\", \"hit\", \"death\", \"dash\"]:
+		animation_player.play(\"moving\")
 
 
 func lock_movement():
@@ -610,13 +615,49 @@ tracks/0/keys = {
 "values": [84, 85, 84]
 }
 
+[sub_resource type="Animation" id="Animation_6yuj4"]
+resource_name = "idle"
+length = 0.500007
+step = 0.0714286
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0714286, 0.142857, 0.214286, 0.285714, 0.357143, 0.428571),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6]
+}
+
+[sub_resource type="Animation" id="Animation_j70yc"]
+resource_name = "moving"
+length = 0.285721
+step = 0.0714286
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0714286, 0.142857, 0.214286),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [14, 15, 16, 17]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_18yci"]
 _data = {
 &"RESET": SubResource("Animation_23chc"),
 &"attack": SubResource("Animation_flsit"),
 &"dash": SubResource("Animation_hq3xq"),
 &"death": SubResource("Animation_xsro1"),
-&"hit": SubResource("Animation_67v6a")
+&"hit": SubResource("Animation_67v6a"),
+&"idle": SubResource("Animation_6yuj4"),
+&"moving": SubResource("Animation_j70yc")
 }
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
