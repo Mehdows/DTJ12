@@ -24,8 +24,8 @@ const HIT_BOX = preload(\"res://scenes_and_scripts/hit_box.tscn\")
 @onready var audio_stream_player_2d: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 
-@export var speed = 200
-@export var damage = 50
+@export var speed = 150
+@export var damage = 40
 @export var attack_distance = 30
 
 

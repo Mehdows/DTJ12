@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://dgkerssrjgeq7"]
+[gd_scene load_steps=12 format=4 uid="uid://lqhdeqgfn846"]
 
 [ext_resource type="Texture2D" uid="uid://d1j1m5hhit48j" path="res://assets/Dungeon tileset/Dungeon tileset.png" id="1_3rxom"]
 [ext_resource type="PackedScene" uid="uid://b7pybyh2gku08" path="res://scenes_and_scripts/player.tscn" id="1_3ykta"]
@@ -239,7 +239,6 @@ pattern_3 = SubResource("TileMapPattern_p5pve")
 [node name="Map" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_3ykta")]
-z_index = 10
 position = Vector2(573, 343)
 
 [node name="HurtBox" parent="Player" index="1"]

@@ -1,8 +1,11 @@
-[gd_resource type="Resource" script_class="Augment" load_steps=2 format=3 uid="uid://bhbt3y1453wau"]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://bhbt3y1453wau"]
 
-[ext_resource type="Script" uid="uid://b7je8tki7v8jl" path="res://resources/augments/augment.gd" id="1_1g7yv"]
+[ext_resource type="Script" uid="uid://d4hg31rycihyr" path="res://resources/augments/health_augment.gd" id="1_1g7yv"]
+[ext_resource type="Texture2D" uid="uid://c0yal48qadukp" path="res://assets/health.png" id="1_ngqi8"]
 
 [resource]
 script = ExtResource("1_1g7yv")
-Description = ""
+image = ExtResource("1_ngqi8")
+title = "Health"
+description = "Adds 50 health points. Your max health without upgrades is 100 health points"
 metadata/_custom_type_script = "uid://b7je8tki7v8jl"

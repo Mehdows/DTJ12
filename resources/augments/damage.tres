@@ -1,8 +1,11 @@
-[gd_resource type="Resource" script_class="Augment" load_steps=2 format=3 uid="uid://dip1w15tpphx7"]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://dip1w15tpphx7"]
 
-[ext_resource type="Script" uid="uid://b7je8tki7v8jl" path="res://resources/augments/augment.gd" id="1_1vsub"]
+[ext_resource type="Texture2D" uid="uid://dlrwy0fvoom2q" path="res://assets/sword.png" id="1_wpewc"]
+[ext_resource type="Script" uid="uid://b71lkyrgebtw8" path="res://resources/augments/damage_augment.gd" id="2_f872v"]
 
 [resource]
-script = ExtResource("1_1vsub")
-Description = ""
+script = ExtResource("2_f872v")
+image = ExtResource("1_wpewc")
+title = "Damage"
+description = "Adds 20 damage points. Your base damage is 40"
 metadata/_custom_type_script = "uid://b7je8tki7v8jl"

@@ -35,3 +35,5 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("attack") and player_inside:
 		resource.apply_augment(player)
 		get_parent().augment_picked()
+		if resource.title == "laser":
+			get_parent().augments.remove_at(0)
