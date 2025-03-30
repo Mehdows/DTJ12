@@ -2,9 +2,10 @@ extends Ability
 
 const LASER = preload("res://scenes_and_scripts/laser.tscn")
 
-func _init() -> void:
+func _ready() -> void:
 	ability_name_event = "ability_1"
 	cooldown = 1
+	super()
 	
 func ability() -> void:
 	var laser = LASER.instantiate()

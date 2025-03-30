@@ -20,6 +20,7 @@ script/source = "class_name Enemy extends CharacterBody2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @export var knockback_decay: float = 5.0
 
+signal dead(enemy: Node)
 
 func _ready() -> void:
 	#animated_sprite_2d.sprite_frames = resource.sprite
@@ -46,6 +47,7 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 	monster_ai.start_chase_cooldown()
 
 func _on_health_component_death() -> void:
+	emit_signal(\"dead\", self)
 	$\".\".queue_free()
 
 func _physics_process(_delta: float) -> void:
@@ -62,6 +64,33 @@ func get_player_position() -> Vector2:
 		return Global.game_controller.player.global_position
 	return Vector2.ZERO
 "
+
+[sub_resource type="Animation" id="Animation_2vo1a"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"default"]
+}
 
 [sub_resource type="Animation" id="Animation_q3pe1"]
 resource_name = "hit"
@@ -105,33 +134,6 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0)
 }
 tracks/2/use_blend = true
-
-[sub_resource type="Animation" id="Animation_2vo1a"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../AnimatedSprite2D:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../AnimatedSprite2D:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"default"]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_krh6d"]
 _data = {
