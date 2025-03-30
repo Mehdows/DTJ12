@@ -20,13 +20,21 @@ signal room_started()  # Signal emitted when the room starts
 var is_room_started: bool = false
 var is_room_cleared: bool = false
 
+var room_loaded: bool = false
+
 func _ready() -> void:
+	transition.begin_level()
 	if room_type != RoomType.TUTORIAL:
 		doors_manager.connect("door_passed", _on_door_pass)
 		enemy_spawner = $EnemySpawner
 		reward_spawner = $RewardSpawner
 		enemy_spawner.connect("waves_complete", _on_waves_complete)
 		enemy_spawner.connect("all_enemies_dead", _on_all_enemies_dead)  # Connect the signal to handle when all enemies are dead
+		
+
+func room_load_complete() -> void:
+	room_loaded = true
+	transition.enable_player_control()
 
 func _on_door_pass(door_type: String) -> void:
 	if door_type == "Entrance" and not is_room_started:
