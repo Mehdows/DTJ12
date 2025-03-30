@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://blskmwg5xkmu7"]
+[gd_scene load_steps=19 format=4 uid="uid://blskmwg5xkmu7"]
 
 [ext_resource type="Script" uid="uid://c7yud7eam5arv" path="res://rooms/room_manager.gd" id="1_yaquc"]
 [ext_resource type="TileSet" uid="uid://blxt0n5mf7khe" path="res://resources/dungeon_tileset.tres" id="2_av7ta"]
@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dvi1t6fcjqs7u" path="res://scenes_and_scripts/enemy_spawner.tscn" id="3_r3y5g"]
 [ext_resource type="Texture2D" uid="uid://c8hervb5hw7x0" path="res://assets/free-pixel-art-cloud-and-sky-backgrounds/3. NEW CLOUDS/2.png" id="3_skyod"]
 [ext_resource type="PackedScene" uid="uid://clo0qt1px7w01" path="res://scenes_and_scripts/room_doors.tscn" id="4_r3y5g"]
-[ext_resource type="Script" path="res://rooms/level_transition.gd" id="5_fltfd"]
+[ext_resource type="Script" uid="uid://dax8ymu68pn51" path="res://rooms/level_transition.gd" id="5_fltfd"]
 [ext_resource type="PackedScene" uid="uid://bq0sv2kfg51jj" path="res://torch.tscn" id="6_av7ta"]
 [ext_resource type="Texture2D" uid="uid://cenbfunt2d1x4" path="res://assets/free-pixel-art-cloud-and-sky-backgrounds/3. NEW CLOUDS/3.png" id="9_nmmih"]
 [ext_resource type="Texture2D" uid="uid://biduuutk0hcq7" path="res://assets/free-pixel-art-cloud-and-sky-backgrounds/3. NEW CLOUDS/4.png" id="10_d33gr"]
@@ -42,8 +42,40 @@ tracks/1/keys = {
 "values": [Color(1, 0.529412, 0.360784, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_m0ru6"]
+resource_name = "begin_level"
+step = 0.05
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"room_load_complete"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Transition")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"disable_player_control"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_r3y5g"]
-resource_name = "exit_level"
+resource_name = "enter_level"
 length = 2.0
 step = 0.05
 tracks/0/type = "value"
@@ -88,7 +120,8 @@ tracks/2/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_av7ta"]
 _data = {
 &"RESET": SubResource("Animation_fltfd"),
-&"exit_level": SubResource("Animation_r3y5g")
+&"begin_level": SubResource("Animation_m0ru6"),
+&"enter_level": SubResource("Animation_r3y5g")
 }
 
 [node name="Room1Left" type="Node2D" groups=["Room"]]

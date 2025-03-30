@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://dsbuft262fwrr"]
+[gd_scene load_steps=17 format=4 uid="uid://dsbuft262fwrr"]
 
 [ext_resource type="Script" uid="uid://c7yud7eam5arv" path="res://rooms/room_manager.gd" id="1_ushiq"]
 [ext_resource type="PackedScene" uid="uid://dvi1t6fcjqs7u" path="res://scenes_and_scripts/enemy_spawner.tscn" id="3_13mg4"]
@@ -11,6 +11,116 @@
 [ext_resource type="Texture2D" uid="uid://biduuutk0hcq7" path="res://assets/free-pixel-art-cloud-and-sky-backgrounds/3. NEW CLOUDS/4.png" id="9_gd60u"]
 [ext_resource type="Texture2D" uid="uid://dv5roml01kfis" path="res://assets/free-pixel-art-cloud-and-sky-backgrounds/3. NEW CLOUDS/5.png" id="10_rdf5h"]
 [ext_resource type="Texture2D" uid="uid://cqgdqrl4s60l5" path="res://assets/free-pixel-art-cloud-and-sky-backgrounds/3. NEW CLOUDS/6.png" id="11_speeq"]
+[ext_resource type="Script" uid="uid://dax8ymu68pn51" path="res://rooms/level_transition.gd" id="12_hd4ae"]
+
+[sub_resource type="Animation" id="Animation_fltfd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Transition/TransitionCamera:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3, -158)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VFX/CanvasModulate:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0.529412, 0.360784, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_m0ru6"]
+resource_name = "begin_level"
+step = 0.05
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"room_load_complete"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Transition")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"disable_player_control"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_r3y5g"]
+resource_name = "enter_level"
+length = 2.0
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Transition/TransitionCamera:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(3, -158), Vector2(3, -208), Vector2(50, -207), Vector2(100, -188.5), Vector2(141, -169), Vector2(166, -146), Vector2(200, -114), Vector2(210, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Transition")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"complete_transition"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("VFX/CanvasModulate:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.99962),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 0.527855, 0.359284, 1), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_av7ta"]
+_data = {
+&"RESET": SubResource("Animation_fltfd"),
+&"begin_level": SubResource("Animation_m0ru6"),
+&"enter_level": SubResource("Animation_r3y5g")
+}
 
 [node name="Room2Right" type="Node2D" groups=["Room"]]
 script = ExtResource("1_ushiq")
@@ -155,6 +265,20 @@ ignore_camera_scroll = true
 z_index = 10
 texture = ExtResource("11_speeq")
 offset = Vector2(-118.85, 33.25)
+
+[node name="Transition" type="Node" parent="."]
+script = ExtResource("12_hd4ae")
+
+[node name="TransitionCamera" type="Camera2D" parent="Transition"]
+unique_name_in_owner = true
+position = Vector2(3, -158)
+zoom = Vector2(3, 3)
+
+[node name="TransitionAnimationPlayer" type="AnimationPlayer" parent="Transition"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_av7ta")
+}
 
 [editable path="EnemySpawner"]
 [editable path="DoorsManager"]

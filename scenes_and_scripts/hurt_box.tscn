@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://r00ruk80vha5" path="res://scenes_and_scripts/hurt_box.gd" id="1_6d2hw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0q7ff"]
+radius = 26.3059
 
 [node name="HurtBox" type="Area2D"]
 collision_layer = 0

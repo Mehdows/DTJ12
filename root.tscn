@@ -1,13 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://7ala4ajq4svf"]
+[gd_scene load_steps=7 format=3 uid="uid://7ala4ajq4svf"]
 
 [ext_resource type="Script" uid="uid://b44yi2hk2iwvt" path="res://scenes_and_scripts/game_manager.gd" id="1_pyidc"]
-[ext_resource type="PackedScene" uid="uid://paisvlkdsy5l" path="res://rooms/room_final_left.tscn" id="3_28aoi"]
+[ext_resource type="PackedScene" uid="uid://cwx2kx3cvdwcl" path="res://rooms/room_final_left.tscn" id="3_28aoi"]
+[ext_resource type="PackedScene" uid="uid://blskmwg5xkmu7" path="res://rooms/room_1_left.tscn" id="3_l8v81"]
 [ext_resource type="PackedScene" uid="uid://dpydbykr4oqf6" path="res://rooms/room_tutorial.tscn" id="4_28aoi"]
+[ext_resource type="PackedScene" uid="uid://dsbuft262fwrr" path="res://rooms/room_2_right.tscn" id="4_vyht1"]
 [ext_resource type="PackedScene" uid="uid://dv8rcbsi4s86d" path="res://scenes_and_scripts/death_screen.tscn" id="5_jnlp7"]
 
 [node name="GameController" type="Node"]
 script = ExtResource("1_pyidc")
-room_scenes = Array[PackedScene]([ExtResource("4_28aoi"), ExtResource("3_28aoi")])
+room_scenes = Array[PackedScene]([ExtResource("4_28aoi"), ExtResource("3_l8v81"), ExtResource("4_vyht1"), ExtResource("3_28aoi")])
 
 [node name="World" type="Node2D" parent="."]
 

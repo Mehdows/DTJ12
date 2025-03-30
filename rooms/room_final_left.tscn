@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=4 uid="uid://paisvlkdsy5l"]
+[gd_scene load_steps=63 format=4 uid="uid://cwx2kx3cvdwcl"]
 
 [ext_resource type="Script" uid="uid://c7yud7eam5arv" path="res://rooms/room_manager.gd" id="1_n6a3f"]
 [ext_resource type="TileSet" uid="uid://blxt0n5mf7khe" path="res://resources/dungeon_tileset.tres" id="2_ane3f"]
@@ -14,9 +14,10 @@
 [ext_resource type="Texture2D" uid="uid://dv5roml01kfis" path="res://assets/free-pixel-art-cloud-and-sky-backgrounds/3. NEW CLOUDS/5.png" id="11_3mri8"]
 [ext_resource type="Texture2D" uid="uid://cqgdqrl4s60l5" path="res://assets/free-pixel-art-cloud-and-sky-backgrounds/3. NEW CLOUDS/6.png" id="12_1gw33"]
 [ext_resource type="Script" uid="uid://c6uj7prkdtqom" path="res://rooms/reward_spawner.gd" id="13_4gmar"]
-[ext_resource type="PackedScene" uid="uid://bsmfko6hjnhb4" path="res://reward_giver.tscn" id="14_yjepd"]
+[ext_resource type="PackedScene" uid="uid://bsmfko6hjnhb4" path="res://scenes_and_scripts/augments/reward_giver.tscn" id="14_yjepd"]
 [ext_resource type="Script" uid="uid://bminxhf1bw3uk" path="res://rooms/boss_trigger.gd" id="15_ane3f"]
 [ext_resource type="Script" uid="uid://b5jtfmretnw5r" path="res://rooms/transition_camera.gd" id="15_nm3tk"]
+[ext_resource type="PackedScene" uid="uid://cgdg3pcfg1aah" path="res://boss.tscn" id="18_m48qe"]
 
 [sub_resource type="Animation" id="Animation_fltfd"]
 length = 0.001
@@ -323,6 +324,20 @@ tracks/7/keys = {
 }, {
 "args": [],
 "method": &"stop_shake"
+}]
+}
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Boss")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"start_behavior"
 }]
 }
 
@@ -825,6 +840,10 @@ scale = Vector2(2.03867, -3.89362)
 shape = SubResource("RectangleShape2D_tabrr")
 debug_color = Color(0.922771, 4.70719e-05, 0.686277, 0.42)
 
+[node name="Boss" parent="." instance=ExtResource("18_m48qe")]
+position = Vector2(60, -129)
+retreat_point = Array[Vector2]([Vector2(0, 0), Vector2(0, 150), Vector2(0, -50), Vector2(100, 150), Vector2(-100, 150)])
+
 [connection signal="body_entered" from="BossTrigger" to="BossTrigger" method="_on_body_entered"]
 [connection signal="body_exited" from="BossTrigger" to="BossTrigger" method="_on_body_exited"]
 
@@ -832,3 +851,5 @@ debug_color = Color(0.922771, 4.70719e-05, 0.686277, 0.42)
 [editable path="DoorsManager"]
 [editable path="DoorsManager/EntranceDoor"]
 [editable path="DoorsManager/ExitDoor"]
+[editable path="Boss"]
+[editable path="Boss/HurtBox"]
