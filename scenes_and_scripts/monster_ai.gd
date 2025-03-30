@@ -1,5 +1,5 @@
-extends Node2D
-class_name MonsterAI
+class_name MonsterAI extends Node2D
+
 
 @export var speed: int = 100
 

@@ -202,18 +202,15 @@ scale = Vector2(3, 3)
 [node name="Parallax2D1" type="Parallax2D" parent="VFX/Parallax"]
 
 [node name="Sprite2D" type="Sprite2D" parent="VFX/Parallax/Parallax2D1"]
-scale = Vector2(1, 1)
 texture = ExtResource("2_lvbom")
 
 [node name="Parallax2D2" type="Parallax2D" parent="VFX/Parallax"]
-scale = Vector2(1, 1)
 scroll_scale = Vector2(0.99, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="VFX/Parallax/Parallax2D2"]
 texture = ExtResource("3_skyod")
 
 [node name="Parallax2D3" type="Parallax2D" parent="VFX/Parallax"]
-scale = Vector2(1, 1)
 scroll_scale = Vector2(0.98, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="VFX/Parallax/Parallax2D3"]
@@ -237,7 +234,6 @@ texture = ExtResource("11_m0ru6")
 offset = Vector2(0, 127.6)
 
 [node name="Parallax2D6" type="Parallax2D" parent="VFX/Parallax"]
-scale = Vector2(1, 1)
 scroll_scale = Vector2(0.8, 1)
 ignore_camera_scroll = true
 
