@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=3 uid="uid://b7pybyh2gku08"]
+[gd_scene load_steps=60 format=3 uid="uid://b7pybyh2gku08"]
 
 [ext_resource type="Resource" uid="uid://cwf53vg7bwmhe" path="res://resources/main_character.tres" id="1_23chc"]
 [ext_resource type="PackedScene" uid="uid://3jomb47e456g" path="res://scenes_and_scripts/hurt_box.tscn" id="2_e8vqu"]
@@ -9,7 +9,6 @@
 [ext_resource type="AudioStream" uid="uid://4ocl38a514nc" path="res://assets/sound/sword-sound-2-36274.mp3" id="7_67v6a"]
 [ext_resource type="AudioStream" uid="uid://bkkvd60oi86dw" path="res://assets/sound/swoosh.mp3" id="8_6yuj4"]
 [ext_resource type="PackedScene" uid="uid://1cptwppfa65o" path="res://scenes_and_scripts/dash.tscn" id="8_67v6a"]
-[ext_resource type="PackedScene" path="res://scenes_and_scripts/player_ui_container.tscn" id="10_j70yc"]
 
 [sub_resource type="GDScript" id="GDScript_onrkg"]
 script/source = "class_name PlayerCharacter extends CharacterBody2D
@@ -121,17 +120,11 @@ func _on_animation_finished(anim_name: String) -> void:
 func get_input():
 	if not immovable and not movement_locked:
 		var input_direction = Input.get_vector(\"move_left\", \"move_right\", \"move_up\", \"move_down\")
-		if not input_direction.is_zero_approx():
+		if input_direction != Vector2.ZERO:
 			last_input_direction = input_direction  # Update only when there is movement
 		velocity = input_direction * speed
 
-func _physics_process(delta):
-	if $RayCast2D.is_colliding() and not immovable:
-		set_collision_mask_value(8, false)
-		$\".\".position += speed*last_input_direction*delta
-	elif not immovable:
-		set_collision_mask_value(8, true)
-		
+func _physics_process(_delta):
 	get_input()
 	move_and_slide()
 
@@ -139,8 +132,6 @@ func _physics_process(delta):
 		animation_player.play(\"idle\")
 	elif velocity != Vector2.ZERO and animation_player.current_animation not in [\"attack\", \"hit\", \"death\", \"dash\"]:
 		animation_player.play(\"moving\")
-	
-		
 
 
 func lock_movement():
@@ -188,8 +179,7 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 			reset_timer.connect(\"timeout\", Callable(self, \"_reset_attack_after_hit\"))
 			add_child(reset_timer)
 			reset_timer.start()
-			audio_stream_player_2d.stream = preload(\"res://assets/sound/retro-hurt.mp3\")
-			audio_stream_player_2d.play()
+
 		active_areas[area] = timer
 		
 		
@@ -212,10 +202,14 @@ func _deal_damage(area: Area2D) -> void:
 
 func _on_health_component_death() -> void:
 	animation_player.play(\"death\")
-	
-	audio_stream_player_2d.stream = DEATH_SCREAM
-	audio_stream_player_2d.play()
-
+	if slash_sound.size() > 0:
+			audio_stream_player_2d.stream = slash_sound[current_sound_index]
+			audio_stream_player_2d.play()
+			
+			# Move to next sound index, restart if at the end
+			current_sound_index += 1
+			if current_sound_index >= slash_sound.size():
+				current_sound_index = 0
 	set_physics_process(false)
 	can_attack = false
 	var fade_overlay = get_tree().get_first_node_in_group(\"death_ui\")
@@ -742,15 +736,6 @@ frame = 98
 volume_db = -20.0
 
 [node name="dash" parent="." instance=ExtResource("8_67v6a")]
-
-[node name="RayCast2D" type="RayCast2D" parent="."]
-target_position = Vector2(0, 14)
-collision_mask = 128
-collide_with_areas = true
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="PlayerUIContainer" parent="CanvasLayer" instance=ExtResource("10_j70yc")]
 
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
 [connection signal="area_exited" from="HurtBox" to="." method="_on_hurt_box_area_exited"]

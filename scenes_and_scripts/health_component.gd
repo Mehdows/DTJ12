@@ -1,6 +1,8 @@
 extends Node2D
 class_name HealthComponent
 
+@onready var health_bar: ProgressBar = $"../CanvasLayer/PlayerUIContainer/HealthBar"
+
 signal death()
 
 var health: int = 100:
@@ -20,3 +22,10 @@ func _on_timer_timeout():
 
 func take_damage(damage):
 	health -= damage
+	health_bar.value = health
+	
+func add_max_health(amount: int):
+	var current_health_perchantage = health/max_health
+	max_health = max_health + amount
+	health = max_health*current_health_perchantage
+	health_bar.value = health

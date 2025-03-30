@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://rh1t7ddete18"]
+
+[ext_resource type="Script" path="res://resources/augments/speed_augment.gd" id="1_4uwug"]
+[ext_resource type="Texture2D" uid="uid://dgfvd41682hew" path="res://assets/dash.png" id="1_fpljl"]
+
+[resource]
+script = ExtResource("1_4uwug")
+image = ExtResource("1_fpljl")
+title = "Speed"
+description = "Adds 50 Speed units. What units? Deez units"
+metadata/_custom_type_script = "uid://b7je8tki7v8jl"

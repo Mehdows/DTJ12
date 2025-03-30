@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://beuuti330mfe1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i1p4g"]
+bg_color = Color(0.0885599, 0.0885599, 0.0885599, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fxk18"]
+bg_color = Color(0.768627, 0.054902, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xj4r4"]
+bg_color = Color(0.0901961, 0.0901961, 0.0901961, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gyf0v"]
+bg_color = Color(0, 0.627451, 0.960784, 1)
+
+[node name="PlayerUIContainer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_top = -25.0
+offset_right = 165.0
+offset_bottom = -10.0
+grow_vertical = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_i1p4g")
+theme_override_styles/fill = SubResource("StyleBoxFlat_fxk18")
+value = 100.0
+show_percentage = false
+
+[node name="DashBar" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 177.0
+offset_top = 335.0
+offset_right = 192.0
+offset_bottom = 350.0
+theme_override_styles/background = SubResource("StyleBoxFlat_xj4r4")
+theme_override_styles/fill = SubResource("StyleBoxFlat_gyf0v")
+value = 100.0
+show_percentage = false

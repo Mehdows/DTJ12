@@ -5,12 +5,12 @@
 [ext_resource type="Texture2D" uid="uid://chsqe3iur5gkr" path="res://assets/character_tileset/Sword.png" id="4_picfm"]
 [ext_resource type="Script" uid="uid://dax8ymu68pn51" path="res://rooms/level_transition.gd" id="5_gafyb"]
 [ext_resource type="PackedScene" uid="uid://bq0sv2kfg51jj" path="res://torch.tscn" id="6_dg4d3"]
-[ext_resource type="Script" uid="uid://b51h5ty20ibjr" path="res://rooms/move_to_next.gd" id="7_s3nif"]
+[ext_resource type="Script" path="res://rooms/move_to_next.gd" id="7_s3nif"]
 [ext_resource type="Texture2D" uid="uid://0j41rbff0bnv" path="res://assets/Keyboard Extras.png" id="8_0x7bd"]
 [ext_resource type="Texture2D" uid="uid://b5its6lur4ex8" path="res://assets/Keyboard Letters and Symbols.png" id="8_hnk5f"]
 [ext_resource type="FontFile" uid="uid://cru3dwflnfalj" path="res://assets/Old Fax.ttf" id="10_picfm"]
-[ext_resource type="Script" uid="uid://c6uj7prkdtqom" path="res://rooms/reward_spawner.gd" id="13_r17mw"]
-[ext_resource type="PackedScene" uid="uid://bsmfko6hjnhb4" path="res://reward_giver.tscn" id="14_defks"]
+[ext_resource type="Script" uid="uid://c6uj7prkdtqom" path="res://scenes_and_scripts/augments/reward_spawner.gd" id="13_r17mw"]
+[ext_resource type="PackedScene" uid="uid://bsmfko6hjnhb4" path="res://scenes_and_scripts/augments/reward_giver.tscn" id="14_defks"]
 
 [sub_resource type="Animation" id="Animation_fltfd"]
 length = 0.001

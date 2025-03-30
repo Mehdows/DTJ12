@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bcny3misdibhr"]
 
-[ext_resource type="Script" uid="uid://ox18relh3kgg" path="res://slash_effect.gd" id="1_n6ho7"]
+[ext_resource type="Script" path="res://slash_effect.gd" id="1_n6ho7"]
 [ext_resource type="Texture2D" uid="uid://c1ru6lukuvtxk" path="res://assets/Smear VFX 01/Smear 01 Vertical 01.png" id="2_qbsw2"]
 
 [sub_resource type="Animation" id="Animation_67v6a"]

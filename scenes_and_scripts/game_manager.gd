@@ -13,7 +13,7 @@ var current_world: Node2D
 
 func _ready() -> void:
 	Global.game_controller = self
-	
+	player = $World/Player#player_scene.instantiate()
 	# Debugging print for room scenes array
 	print("Room scenes array:", room_scenes)
 
@@ -88,8 +88,8 @@ func spawn_player():
 	var spawn_point = current_room_instance.get_node("PlayerSpawnPoint")
 	if spawn_point:
 		# Instantiate the player and add it to the room
-		player = player_scene.instantiate()
-		current_room_instance.add_child(player)  # Add player to the current room
+		
+		#add_child(player)  # Add player to the current room
 
 		# Set the player's position to the spawn point's position
 		player.global_position = spawn_point.global_position
