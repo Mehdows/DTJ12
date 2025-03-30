@@ -5,6 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mcu1v"]
 
 [node name="Laser" type="Area2D"]
+z_index = 5
 script = ExtResource("1_h7bue")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
