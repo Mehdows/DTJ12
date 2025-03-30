@@ -6,8 +6,5 @@
 [node name="Enemy" instance=ExtResource("1_h2rev")]
 resource = ExtResource("2_uufv5")
 
-[node name="AnimatedSprite2D" parent="." index="2"]
-frame_progress = 0.0
-
 [editable path="HurtBox"]
 [editable path="HitBox"]

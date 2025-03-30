@@ -9,10 +9,23 @@ func _ready():
 	if player_camera:
 		player_camera.make_current()  
 
+func begin_level():
+	transition_camera.enabled = true  
+	transition_camera.make_current()
+	transition_animation_player.play("begin_level")
+
 func begin_transition():
 	transition_camera.enabled = true  
 	transition_camera.make_current()
-	transition_animation_player.play("exit_level")
+	transition_animation_player.play("enter_level")
+
+func disable_player_control():
+	Global.game_controller.player.lock_movement()
+
+func enable_player_control():
+	transition_camera.enabled = false  
+	Global.game_controller.player.unlock_movement()
+	Global.game_controller.player.get_node("Camera2D").make_current()
 
 func complete_transition():
 	Global.game_controller.load_next_room()

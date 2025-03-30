@@ -50,6 +50,8 @@ var current_sound_index = 0
 var can_attack = true
 var attack_cooldown = 0.2
 
+var movement_locked = false  # Flag to lock player movement
+
 func _ready() -> void:
 	collision_shape_2d.shape = resource.shape
 	animation_player.animation_finished.connect(_on_animation_finished)
@@ -127,7 +129,7 @@ func _on_animation_finished(anim_name: String) -> void:
 		can_attack = true
 
 func get_input():
-	if not is_dashing:
+	if not is_dashing and not movement_locked:
 		var input_direction = Input.get_vector(\"move_left\", \"move_right\", \"move_up\", \"move_down\")
 		velocity = input_direction * speed
 		
@@ -188,6 +190,15 @@ func _physics_process(_delta):
 
 	move_and_slide()
 
+
+func lock_movement():
+	player_sprite.visible = false
+	movement_locked = true
+	velocity = Vector2.ZERO
+
+func unlock_movement():
+	player_sprite.visible = true
+	movement_locked = false
 
 
 var active_areas: Dictionary = {}
