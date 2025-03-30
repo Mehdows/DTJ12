@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://b7pybyh2gku08"]
+[gd_scene load_steps=49 format=3 uid="uid://b7pybyh2gku08"]
 
 [ext_resource type="Resource" uid="uid://cwf53vg7bwmhe" path="res://resources/main_character.tres" id="1_23chc"]
 [ext_resource type="PackedScene" uid="uid://3jomb47e456g" path="res://scenes_and_scripts/hurt_box.tscn" id="2_e8vqu"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dn5ik34crhhyi" path="res://scenes_and_scripts/health_component.tscn" id="4_f8gj8"]
 [ext_resource type="AudioStream" uid="uid://4ocl38a514nc" path="res://assets/sound/sword-sound-2-36274.mp3" id="7_67v6a"]
 [ext_resource type="PackedScene" uid="uid://h8mofifu2cbw" path="res://scenes_and_scripts/laserability.tscn" id="8_67v6a"]
+[ext_resource type="PackedScene" uid="uid://1cptwppfa65o" path="res://scenes_and_scripts/dash.tscn" id="9_6yuj4"]
 
 [sub_resource type="GDScript" id="GDScript_onrkg"]
 script/source = "class_name PlayerCharacter extends CharacterBody2D
@@ -27,24 +28,14 @@ const HIT_BOX = preload(\"res://scenes_and_scripts/hit_box.tscn\")
 @export var speed = 200
 @export var damage = 50
 @export var attack_distance = 30
-@export var dash_enable = false
-@export var dash_speed = 500
-@export var dash_damage = 50
-@export var dash_attack_size = 30
-@export var dash_duration = 0.2
-@export var dash_cooldown = 1.0
+@export var immovable = false
+@export var invincible = false
 
 @export var resource: PlayerResource
 @export var slash_sound: Array[AudioStream] = []
 @export var slash_scene: PackedScene = preload(\"res://slash_effect.tscn\")
 
 
-var is_dashing = false
-var dash_timer = 0.0
-var dash_cooldown_timer = 0.0
-var dash_direction = Vector2.ZERO
-
-var dash_attack: Area2D = null
 var current_sound_index = 0
 var can_attack = true
 var attack_cooldown = 0.2
@@ -127,51 +118,14 @@ func _on_animation_finished(anim_name: String) -> void:
 		can_attack = true
 
 func get_input():
-	if not is_dashing:
+	if not immovable:
 		var input_direction = Input.get_vector(\"move_left\", \"move_right\", \"move_up\", \"move_down\")
 		velocity = input_direction * speed
-		
-		if Input.is_action_just_pressed(\"dash\") and dash_cooldown_timer <= 0:
-			start_dash(input_direction)
 
-func start_dash(direction):
-	if direction == Vector2.ZERO:
-		return
 	
-	is_dashing = true
-	dash_timer = dash_duration
-	dash_cooldown_timer = dash_cooldown
-	dash_direction = direction
-	velocity = dash_direction * dash_speed
-	
-	# Disable the hurtbox (player is invincible)
-	$HurtBox.set_deferred(\"monitorable\", false)
-
-	# Create a hitbox for dash damage
-	dash_attack = HIT_BOX.instantiate()
-	dash_attack.collision_layer = 1
-	dash_attack.damage = dash_damage
-	dash_attack.get_child(0).shape = resource.attack_shape
-	var shape = dash_attack.get_child(0).shape
-	shape.radius = dash_attack_size
-	dash_attack.position = Vector2.ZERO  # Centered on player
-	add_child(dash_attack)
 
 func _physics_process(_delta):
-	if is_dashing:
-		dash_timer -= _delta
-		if dash_timer <= 0:
-			is_dashing = false
-			velocity = Vector2.ZERO
-			$HurtBox.set_deferred(\"monitorable\", true)
-			
-			if dash_attack:
-				dash_attack.queue_free()
-				dash_attack = null
-	else:
-		dash_cooldown_timer = max(0, dash_cooldown_timer - _delta)
-		get_input()
-
+	get_input()
 	move_and_slide()
 
 var active_areas: Dictionary = {}
@@ -185,7 +139,7 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 		timer.connect(\"timeout\", Callable(self, \"_deal_damage\").bind(area))
 		add_child(timer)
 		
-		health_component.take_damage(area.damage)  # Deal initial damage immediately
+		_deal_damage(area)  # Deal initial damage immediately
 		active_areas[area] = timer
 
 func _on_hurt_box_area_exited(area: Area2D) -> void:
@@ -194,7 +148,7 @@ func _on_hurt_box_area_exited(area: Area2D) -> void:
 		active_areas.erase(area)
 
 func _deal_damage(area: Area2D) -> void:
-	if area in active_areas:
+	if area in active_areas and not invincible:
 		health_component.take_damage(area.damage)
 
 
@@ -583,6 +537,8 @@ frame = 98
 volume_db = -20.0
 
 [node name="LaserAbility" parent="." instance=ExtResource("8_67v6a")]
+
+[node name="dash" parent="." instance=ExtResource("9_6yuj4")]
 
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
 [connection signal="area_exited" from="HurtBox" to="." method="_on_hurt_box_area_exited"]
