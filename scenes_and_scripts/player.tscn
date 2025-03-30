@@ -203,7 +203,10 @@ func _on_health_component_death() -> void:
 	set_physics_process(false)
 	can_attack = false
 	var fade_overlay = get_tree().get_first_node_in_group(\"death_ui\")
-	fade_overlay.start_fade()
+	if fade_overlay:
+		fade_overlay.start_fade()
+	else:
+		print(\"Error: No node in group 'death_ui' found!\")
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_23chc"]
@@ -553,7 +556,7 @@ shape = SubResource("CapsuleShape2D_f8gj8")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 z_index = 1
-zoom = Vector2(3, 3)
+zoom = Vector2(2, 2)
 script = ExtResource("3_44uky")
 
 [node name="HealthComponent" parent="." instance=ExtResource("4_f8gj8")]
