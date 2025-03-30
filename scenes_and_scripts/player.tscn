@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://d1wnnuq882a47" path="res://scenes_and_scripts/clamped_follow_camera.gd" id="3_44uky"]
 [ext_resource type="PackedScene" uid="uid://dn5ik34crhhyi" path="res://scenes_and_scripts/health_component.tscn" id="4_f8gj8"]
 [ext_resource type="AudioStream" uid="uid://4ocl38a514nc" path="res://assets/sound/sword-sound-2-36274.mp3" id="7_67v6a"]
-[ext_resource type="PackedScene" path="res://scenes_and_scripts/laserability.tscn" id="8_67v6a"]
+[ext_resource type="PackedScene" uid="uid://h8mofifu2cbw" path="res://scenes_and_scripts/laserability.tscn" id="8_67v6a"]
 
 [sub_resource type="GDScript" id="GDScript_onrkg"]
 script/source = "class_name PlayerCharacter extends CharacterBody2D
@@ -566,7 +566,7 @@ shape = SubResource("CapsuleShape2D_f8gj8")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 z_index = 1
-zoom = Vector2(3, 3)
+zoom = Vector2(2, 2)
 script = ExtResource("3_44uky")
 
 [node name="HealthComponent" parent="." instance=ExtResource("4_f8gj8")]
