@@ -30,6 +30,7 @@ const HIT_BOX = preload(\"res://scenes_and_scripts/hit_box.tscn\")
 @export var dash_enable = false
 @export var dash_speed = 500
 @export var dash_damage = 50
+@export var dash_distance: float = 100  # Dash length
 @export var dash_attack_size = 30
 @export var dash_duration = 0.2
 @export var dash_cooldown = 1.0
@@ -114,8 +115,7 @@ func _input(event: InputEvent) -> void:
 		timer.connect(\"timeout\", Callable(self, \"_remove_attack\").bind(attack, timer))
 		add_child(timer)
 	
-		
-
+	
 		
 func _remove_attack(attack,timer):
 	attack.queue_free()
@@ -134,11 +134,13 @@ func get_input():
 		if Input.is_action_just_pressed(\"dash\") and dash_cooldown_timer <= 0:
 			start_dash(input_direction)
 
+
 func start_dash(direction):
 	if direction == Vector2.ZERO:
 		return
 	
 	is_dashing = true
+	set_collision_mask_value(8, false)  # Disable gap layer mask during dash
 	dash_timer = dash_duration
 	dash_cooldown_timer = dash_cooldown
 	dash_direction = direction
@@ -157,22 +159,31 @@ func start_dash(direction):
 	dash_attack.position = Vector2.ZERO  # Centered on player
 	add_child(dash_attack)
 
+func _end_dash():
+	set_collision_mask_value(8, true)  # Re-enable gap layer mask after dash
+	is_dashing = false
+	velocity = Vector2.ZERO
+	$HurtBox.set_deferred(\"monitorable\", true)
+	
+	if dash_attack:
+		dash_attack.queue_free()
+		dash_attack = null
+
+
 func _physics_process(_delta):
+	print(\"dashing\", is_dashing)
 	if is_dashing:
 		dash_timer -= _delta
 		if dash_timer <= 0:
-			is_dashing = false
-			velocity = Vector2.ZERO
-			$HurtBox.set_deferred(\"monitorable\", true)
-			
-			if dash_attack:
-				dash_attack.queue_free()
-				dash_attack = null
+			_end_dash()
+
 	else:
 		dash_cooldown_timer = max(0, dash_cooldown_timer - _delta)
 		get_input()
 
 	move_and_slide()
+
+
 
 var active_areas: Dictionary = {}
 
