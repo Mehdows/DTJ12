@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://btqbk72je3o5m"]
+[gd_scene load_steps=3 format=3 uid="uid://k6b4sr30nua2"]
 
 [ext_resource type="Script" uid="uid://c6uj7prkdtqom" path="res://scenes_and_scripts/augments/reward_spawner.gd" id="1_b5t3r"]
 [ext_resource type="PackedScene" uid="uid://bsmfko6hjnhb4" path="res://scenes_and_scripts/augments/reward_giver.tscn" id="2_kxe1d"]

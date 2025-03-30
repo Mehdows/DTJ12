@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://7ala4ajq4svf"]
+[gd_scene load_steps=8 format=3 uid="uid://7ala4ajq4svf"]
 
 [ext_resource type="Script" uid="uid://b44yi2hk2iwvt" path="res://scenes_and_scripts/game_manager.gd" id="1_pyidc"]
 [ext_resource type="PackedScene" uid="uid://cwx2kx3cvdwcl" path="res://rooms/room_final_left.tscn" id="3_28aoi"]

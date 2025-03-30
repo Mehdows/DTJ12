@@ -14,8 +14,8 @@ signal room_started()  # Signal emitted when the room starts
 
 @onready var doors_manager: DoorManager = $DoorsManager
 @onready var enemy_spawner: EnemySpawner = null
-@onready var reward_spawner: RewardSpawner = null
 @onready var transition: LevelTransition = $Transition
+@onready var reward_spawner: RewardSpawner = null
 
 var is_room_started: bool = false
 var is_room_cleared: bool = false

@@ -150,4 +150,5 @@ func _on_health_component_death() -> void:
 	await get_tree().create_timer(0.1).timeout
 	animation_player.play("death")
 	emit_signal("dead", self)
+	get_tree().change_scene_to_file("res://scenes_and_scripts/victory_screen.tscn")
 	$".".queue_free()

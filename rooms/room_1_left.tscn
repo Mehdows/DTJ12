@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://blskmwg5xkmu7"]
+[gd_scene load_steps=18 format=4 uid="uid://blskmwg5xkmu7"]
 
 [ext_resource type="Script" uid="uid://c7yud7eam5arv" path="res://rooms/room_manager.gd" id="1_yaquc"]
 [ext_resource type="TileSet" uid="uid://blxt0n5mf7khe" path="res://resources/dungeon_tileset.tres" id="2_av7ta"]
@@ -12,8 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://cenbfunt2d1x4" path="res://assets/free-pixel-art-cloud-and-sky-backgrounds/3. NEW CLOUDS/3.png" id="9_nmmih"]
 [ext_resource type="Texture2D" uid="uid://biduuutk0hcq7" path="res://assets/free-pixel-art-cloud-and-sky-backgrounds/3. NEW CLOUDS/4.png" id="10_d33gr"]
 [ext_resource type="Texture2D" uid="uid://dv5roml01kfis" path="res://assets/free-pixel-art-cloud-and-sky-backgrounds/3. NEW CLOUDS/5.png" id="11_m0ru6"]
-[ext_resource type="PackedScene" uid="uid://bsmfko6hjnhb4" path="res://scenes_and_scripts/augments/reward_giver.tscn" id="13_d33gr"]
-[ext_resource type="Script" path="res://rooms/reward_spawner.gd" id="13_m0ru6"]
+[ext_resource type="PackedScene" uid="uid://k6b4sr30nua2" path="res://scenes_and_scripts/augments/reward_spawner.tscn" id="13_d33gr"]
 
 [sub_resource type="Animation" id="Animation_fltfd"]
 length = 0.001
@@ -277,12 +276,7 @@ z_index = 10
 texture = ExtResource("3_qahtv")
 offset = Vector2(-118.85, 33.25)
 
-[node name="RewardSpawner" type="Node2D" parent="."]
-z_index = 5
-script = ExtResource("13_m0ru6")
-reward1 = ExtResource("13_d33gr")
-reward2 = ExtResource("13_d33gr")
-reward3 = ExtResource("13_d33gr")
+[node name="RewardSpawner" parent="." instance=ExtResource("13_d33gr")]
 
 [editable path="EnemySpawner"]
 [editable path="DoorsManager"]

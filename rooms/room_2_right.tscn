@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://dsbuft262fwrr"]
+[gd_scene load_steps=18 format=4 uid="uid://dsbuft262fwrr"]
 
 [ext_resource type="Script" uid="uid://c7yud7eam5arv" path="res://rooms/room_manager.gd" id="1_ushiq"]
 [ext_resource type="PackedScene" uid="uid://dvi1t6fcjqs7u" path="res://scenes_and_scripts/enemy_spawner.tscn" id="3_13mg4"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dv5roml01kfis" path="res://assets/free-pixel-art-cloud-and-sky-backgrounds/3. NEW CLOUDS/5.png" id="10_rdf5h"]
 [ext_resource type="Texture2D" uid="uid://cqgdqrl4s60l5" path="res://assets/free-pixel-art-cloud-and-sky-backgrounds/3. NEW CLOUDS/6.png" id="11_speeq"]
 [ext_resource type="Script" uid="uid://dax8ymu68pn51" path="res://rooms/level_transition.gd" id="12_hd4ae"]
+[ext_resource type="PackedScene" uid="uid://k6b4sr30nua2" path="res://scenes_and_scripts/augments/reward_spawner.tscn" id="13_xenbc"]
 
 [sub_resource type="Animation" id="Animation_fltfd"]
 length = 0.001
@@ -279,6 +280,8 @@ root_node = NodePath("../..")
 libraries = {
 &"": SubResource("AnimationLibrary_av7ta")
 }
+
+[node name="RewardSpawner" parent="." instance=ExtResource("13_xenbc")]
 
 [editable path="EnemySpawner"]
 [editable path="DoorsManager"]

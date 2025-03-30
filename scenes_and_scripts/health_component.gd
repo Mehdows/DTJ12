@@ -22,10 +22,12 @@ func _on_timer_timeout():
 
 func take_damage(damage):
 	health -= damage
-	health_bar.value = health
+	if get_parent().is_in_group("player"):
+		health_bar.value = health
 	
 func add_max_health(amount: int):
 	var current_health_perchantage = health/max_health
 	max_health = max_health + amount
 	health = max_health*current_health_perchantage
-	health_bar.value = health
+	if get_parent().is_in_group("player"):
+		health_bar.value = health
