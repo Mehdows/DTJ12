@@ -12,15 +12,6 @@ enum RoomType {
 signal room_cleared()  # Signal emitted when the room is cleared
 signal room_started()  # Signal emitted when the room starts
 
-enum RoomType {
-	TUTORIAL,
-	COMBAT,
-	REST
-}
-
-@export var room_type: RoomType = RoomType.COMBAT
-
-
 @onready var doors_manager: DoorManager = $DoorsManager
 @onready var enemy_spawner: EnemySpawner = null
 @onready var reward_spawner: RewardSpawner = null
@@ -30,9 +21,8 @@ var is_room_started: bool = false
 var is_room_cleared: bool = false
 
 func _ready() -> void:
-	doors_manager.connect("door_passed", _on_door_pass)
-	
 	if room_type != RoomType.TUTORIAL:
+		doors_manager.connect("door_passed", _on_door_pass)
 		enemy_spawner = $EnemySpawner
 		reward_spawner = $RewardSpawner
 		enemy_spawner.connect("waves_complete", _on_waves_complete)
