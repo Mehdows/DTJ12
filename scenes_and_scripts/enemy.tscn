@@ -33,6 +33,12 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 
 func _on_health_component_death() -> void:
 	$\".\".queue_free()
+
+func _physics_process(_delta: float) -> void:
+	if velocity.x < 0:
+		animated_sprite_2d.flip_h = 1
+	else:
+		animated_sprite_2d.flip_h = 0
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n8rnd"]
