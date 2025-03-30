@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://cj1lvijrb5i7n"]
+
+[ext_resource type="Texture2D" uid="uid://dlrwy0fvoom2q" path="res://assets/sword.png" id="1_rmsn1"]
+[ext_resource type="Script" uid="uid://udbqkhngpdjt" path="res://resources/augments/laser_augment.gd" id="2_rmsn1"]
+
+[resource]
+script = ExtResource("2_rmsn1")
+image = ExtResource("1_rmsn1")
+title = "Laser"
+description = "Shoot a laser with \"1\", deals 2x damage"
+metadata/_custom_type_script = "uid://b7je8tki7v8jl"

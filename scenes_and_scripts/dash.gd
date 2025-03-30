@@ -39,9 +39,13 @@ func ability() -> void:
 	parent.immovable = true
 	parent.invincible = true
 	parent.velocity = direction * dash_speed
-
+	parent.set_collision_mask_value(8, false)  # Disable gap layer mask during dash
+	
 	dash_attack.collision_layer = 1
 	dash_duration_timer.start()
+	if parent.animation_player.is_playing() and parent.animation_player.current_animation == "attack":
+		parent.animation_player.stop()
+	parent.animation_player.play("dash")
 
 func _end_dash():
 	var parent = get_parent()
@@ -49,4 +53,5 @@ func _end_dash():
 	parent.invincible = false
 	dash_attack.set_process(false)
 	dash_attack.collision_layer = 0
-	
+	parent.set_collision_mask_value(8, true)
+	parent.can_attack = true
