@@ -29,6 +29,7 @@ func _ready() -> void:
 	hitbox_col.shape = resource.shape
 	monster_ai.speed = resource.speed
 	health_component.max_health = resource.health
+	
 
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
@@ -48,9 +49,6 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 func _on_health_component_death() -> void:
 	hit_box.damage = 0
 	monster_ai.speed = 0
-	if animation_player.is_playing() and animation_player.current_animation == \"hit\":
-		await animation_player.animation_finished
-	await get_tree().create_timer(0.1).timeout
 	animation_player.play(\"death\")
 	
 func _kill_enemy() -> void:
@@ -156,7 +154,7 @@ tracks/2/use_blend = true
 
 [sub_resource type="Animation" id="Animation_krh6d"]
 resource_name = "death"
-length = 0.200005
+length = 0.250005
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
