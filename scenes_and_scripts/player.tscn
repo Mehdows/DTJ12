@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://b7pybyh2gku08"]
+[gd_scene load_steps=61 format=3 uid="uid://b7pybyh2gku08"]
 
 [ext_resource type="Resource" uid="uid://cwf53vg7bwmhe" path="res://resources/main_character.tres" id="1_23chc"]
 [ext_resource type="PackedScene" uid="uid://3jomb47e456g" path="res://scenes_and_scripts/hurt_box.tscn" id="2_e8vqu"]
@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://4ocl38a514nc" path="res://assets/sound/sword-sound-2-36274.mp3" id="7_67v6a"]
 [ext_resource type="AudioStream" uid="uid://bkkvd60oi86dw" path="res://assets/sound/swoosh.mp3" id="8_6yuj4"]
 [ext_resource type="PackedScene" uid="uid://1cptwppfa65o" path="res://scenes_and_scripts/dash.tscn" id="8_67v6a"]
+[ext_resource type="PackedScene" uid="uid://beuuti330mfe1" path="res://scenes_and_scripts/player_ui_container.tscn" id="10_j70yc"]
 
 [sub_resource type="GDScript" id="GDScript_onrkg"]
 script/source = "class_name PlayerCharacter extends CharacterBody2D
@@ -746,6 +747,10 @@ volume_db = -20.0
 target_position = Vector2(0, 14)
 collision_mask = 128
 collide_with_areas = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PlayerUIContainer" parent="CanvasLayer" instance=ExtResource("10_j70yc")]
 
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
 [connection signal="area_exited" from="HurtBox" to="." method="_on_hurt_box_area_exited"]
