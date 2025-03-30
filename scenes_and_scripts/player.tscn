@@ -137,14 +137,19 @@ func get_input():
 func start_dash(direction):
 	if direction == Vector2.ZERO:
 		return
-	
+
+	# Cancel attack animation if it's still playing
+	if animation_player.is_playing() and animation_player.current_animation == \"attack\":
+		animation_player.stop()
+		can_attack = true
+
 	animation_player.play(\"dash\")
 	is_dashing = true
 	dash_timer = dash_duration
 	dash_cooldown_timer = dash_cooldown
 	dash_direction = direction
 	velocity = dash_direction * dash_speed
-	
+
 	# Disable the hurtbox (player is invincible)
 	$HurtBox.set_deferred(\"monitorable\", false)
 
