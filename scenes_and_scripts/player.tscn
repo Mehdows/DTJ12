@@ -549,7 +549,7 @@ _data = {
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 10
 collision_layer = 4
-collision_mask = 84
+collision_mask = 212
 script = SubResource("GDScript_onrkg")
 resource = ExtResource("1_23chc")
 slash_sound = Array[AudioStream]([ExtResource("7_67v6a"), ExtResource("3_6yuj4")])

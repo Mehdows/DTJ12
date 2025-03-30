@@ -7,6 +7,7 @@
 
 [node name="RoomRest" type="Node2D" groups=["Room"]]
 script = ExtResource("1_ushiq")
+room_type = 2
 
 [node name="PlayerSpawnPoint" type="Marker2D" parent="."]
 position = Vector2(185, 110)

@@ -4,6 +4,15 @@ class_name RoomManager
 signal room_cleared()  # Signal emitted when the room is cleared
 signal room_started()  # Signal emitted when the room starts
 
+enum RoomType {
+	TUTORIAL,
+	COMBAT,
+	REST
+}
+
+@export var room_type: RoomType = RoomType.COMBAT
+
+
 @onready var doors_manager: DoorManager = $DoorsManager
 @onready var enemy_spawner: EnemySpawner = $EnemySpawner
 @onready var reward_spawner: RewardSpawner = $RewardSpawner
@@ -13,9 +22,12 @@ var is_room_started: bool = false
 var is_room_cleared: bool = false
 
 func _ready() -> void:
-	doors_manager.connect("door_passed", _on_door_pass)
-	enemy_spawner.connect("waves_complete", _on_waves_complete)
-	enemy_spawner.connect("all_enemies_dead", _on_all_enemies_dead)  # Connect the signal to handle when all enemies are dead
+	if room_type != RoomType.TUTORIAL:
+		doors_manager.connect("door_passed", _on_door_pass)
+		enemy_spawner = $EnemySpawner
+		reward_spawner = $RewardSpawner
+		enemy_spawner.connect("waves_complete", _on_waves_complete)
+		enemy_spawner.connect("all_enemies_dead", _on_all_enemies_dead)  # Connect the signal to handle when all enemies are dead
 
 func _on_door_pass(door_type: String) -> void:
 	if door_type == "Entrance" and not is_room_started:
