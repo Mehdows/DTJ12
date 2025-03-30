@@ -80,6 +80,7 @@ polygon = PackedVector2Array(0.0177937, -8, 8, -8, 8, 8, -0.0428247, 8)
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e0an3"]
 texture = ExtResource("1_1o0f1")
 0:0/0 = 0
+0:0/0/physics_layer_1/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:0/0 = 0
 2:0/0 = 0
 2:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_38002")
@@ -325,6 +326,8 @@ texture = ExtResource("1_1o0f1")
 occlusion_layer_0/light_mask = 1
 physics_layer_0/collision_layer = 16
 physics_layer_0/collision_mask = 0
+physics_layer_1/collision_layer = 128
+physics_layer_1/collision_mask = 0
 terrain_set_0/mode = 1
 terrain_set_0/terrain_0/name = "Floor"
 terrain_set_0/terrain_0/color = Color(0, 0.343752, 0.820722, 1)

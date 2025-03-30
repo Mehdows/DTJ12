@@ -10,6 +10,7 @@ size = Vector2(47, 8)
 script = ExtResource("1_xhpj4")
 
 [node name="EntranceDoor" parent="." instance=ExtResource("2_aynv2")]
+collision_layer = 0
 
 [node name="CollisionShape2D" parent="EntranceDoor" index="0"]
 position = Vector2(-7.1875, 11)
