@@ -76,6 +76,7 @@ ability_1={
 2d_physics/layer_4="Enemy"
 2d_physics/layer_5="Walls"
 2d_physics/layer_6="Doors"
+2d_physics/layer_7="Rewards"
 
 [rendering]
 
