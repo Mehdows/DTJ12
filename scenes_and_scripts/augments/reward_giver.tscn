@@ -4,43 +4,17 @@
 [ext_resource type="Texture2D" uid="uid://d1j1m5hhit48j" path="res://assets/Dungeon tileset/Dungeon tileset.png" id="2_bu1n8"]
 [ext_resource type="Resource" uid="uid://cj1lvijrb5i7n" path="res://resources/augments/laser.tres" id="2_gfxti"]
 [ext_resource type="Texture2D" uid="uid://dlrwy0fvoom2q" path="res://assets/sword.png" id="3_bu1n8"]
+[ext_resource type="FontFile" uid="uid://cru3dwflnfalj" path="res://assets/Old Fax.ttf" id="5_mlmt4"]
 
-[sub_resource type="FontFile" id="FontFile_gfxti"]
-subpixel_positioning = 0
-msdf_pixel_range = 14
-msdf_size = 128
-cache/0/10/0/ascent = 0.0
-cache/0/10/0/descent = 0.0
-cache/0/10/0/underline_position = 0.0
-cache/0/10/0/underline_thickness = 0.0
-cache/0/10/0/scale = 1.0
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
+[sub_resource type="LabelSettings" id="LabelSettings_84qs5"]
+font = ExtResource("5_mlmt4")
 
 [sub_resource type="Theme" id="Theme_y56kr"]
-default_font = SubResource("FontFile_gfxti")
+default_font = ExtResource("5_mlmt4")
 default_font_size = 10
 
-[sub_resource type="FontFile" id="FontFile_bu1n8"]
-subpixel_positioning = 0
-msdf_pixel_range = 14
-msdf_size = 128
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/10/0/ascent = 0.0
-cache/0/10/0/descent = 0.0
-cache/0/10/0/underline_position = 0.0
-cache/0/10/0/underline_thickness = 0.0
-cache/0/10/0/scale = 1.0
-
 [sub_resource type="Theme" id="Theme_gfxti"]
-default_font = SubResource("FontFile_bu1n8")
+default_font = ExtResource("5_mlmt4")
 default_font_size = 10
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nmmih"]
@@ -102,6 +76,7 @@ stretch_mode = 5
 [node name="Label" type="Label" parent="CanvasLayer/Control/Panel/VBoxContainer"]
 layout_mode = 2
 text = "Attack Effect"
+label_settings = SubResource("LabelSettings_84qs5")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Control/Panel/VBoxContainer"]
 layout_mode = 2

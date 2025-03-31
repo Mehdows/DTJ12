@@ -11,6 +11,7 @@ var current_room_instance
 
 var current_world: Node2D
 
+
 func _ready() -> void:
 	Global.game_controller = self
 	player = $World/Player#player_scene.instantiate()
